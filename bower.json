@@ -1,0 +1,31 @@
+{
+  "name": "vue-isotope",
+  "authors": [
+    "desmaisons_david <desmaisons_david@hotmail.com>"
+  ],
+  "description": "vue isotope directive",
+  "main": "src\\vue-isotope.js",
+  "keywords": [
+    "vue",
+    "list",
+    "isotope"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "examples",
+    "*.json",
+    "*.md",
+    "gulpfile.js"
+  ],
+  "dependencies": {
+    "vue": "^1.0.25",
+    "isotope": "^3.0.1",
+    "lodash": "^4.13.1"
+  }
+}
