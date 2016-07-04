@@ -14,10 +14,10 @@
      <div id="main">
         <h1>Vue isotope For</h1>
        
-        <div class="drag">
+        <div >
             <h2>v-isotope-for</h2>
-            <div>
-                <div v-isotope-for="element in list" class="item">
+            <div id="root_isotope">
+                <div v-isotope-for="element in list" class="item" :options='option'>
                 {{element.name}}
                 <br>
                 {{element.id}}
@@ -27,6 +27,9 @@
 
         <button @click="add">Add</button>
         <button @click="replace">Replace</button>
+        <button @click="isotopeSort('name')">Sort by name</button>
+        <button @click="isotopeSort('id')">Sort by id</button>
+        <button @click="isotopeShuttle()">Shuttle</button>
 
         <br>
 

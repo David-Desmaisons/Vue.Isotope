@@ -4,9 +4,8 @@
     function mix(source, functions){
       _.forEach(['bind', 'diff', 'unbind'],function(value){
           var original = source[value];
-          var patch = functions[value];
           source[value] = function(){  
-            var after = patch.apply(this, arguments);       
+            var after = functions[value].apply(this, arguments);       
             original.apply(this, arguments);
             after.apply(this, arguments);
           };
@@ -19,32 +18,64 @@
         var dragableForDirective = _.clone(forDirective);
         dragableForDirective.params = dragableForDirective.params.concat('options', 'root');
 
-        function getNode(frag){
-          return frag.node;
-        };
-
         mix(dragableForDirective, {
           bind : function(){
             parent = (!!this.params.root) ? document.getElementById(this.params.root) : this.el.parentElement;
 
             return function () {    
-             var defaultOptions={
+              var defaultOptions={
                layoutMode: 'masonry',
                itemSelector: '.item',
                masonry: {
                  gutter: 10
                }
-             };
-             var ctx = this, options = this.params.options;
-             options = (typeof options === "string") ? JSON.parse(options) : options;
-             options = _.merge(defaultOptions, options);
+              };
+              var ctx = this, options = this.params.options;
+              options = _.isString(options) ? JSON.parse(options) : options;
+              options = _.defaults(options, defaultOptions);
 
-             this.vm.$nextTick(function () {
-               ctx._iso = new Isotope(parent, options);
-             });
-           };
+              function getItemVm(element){
+                return element.__v_frag.raw;
+              };
+
+              var sort = options.getSortData;
+              _.forOwn(sort, function(value, key){
+                if (_.isString(value))
+                  sort[key] = function (itemElement){return getItemVm(itemElement)[value];}
+                else if (_.isFunction(value))
+                  sort[key] = function (itemElement){return value(getItemVm(itemElement));}
+              });
+
+              var filter = options.filter;
+              _.forOwn(filter, function(value, key){
+                filter[key] = function (itemElement){return value(getItemVm(itemElement));}
+              });
+
+              this.vm.$nextTick(function () {
+                var iso = new Isotope(parent, options);
+                ctx._iso = iso;
+                parent._iso = iso;
+                _.assign(ctx.vm,{
+                  isotopeSort : function(sortOption){
+                    iso.arrange({sortBy  :sortOption});
+                  },
+                  isotopeFilter : function(filterOption){
+                     iso.arrange({filterBy :filterOption});
+                  },
+                  isotopeShuttle: function(){
+                    iso.shuffle();
+                  },
+                  isotopeArrange: function(){
+                    iso.arrange(arguments);
+                  }
+                });
+              });
+            };
           },
-          diff : function (value){
+          diff : function (value){        
+            function getNode(frag){
+              return frag.node;
+            };
             var old = _.map(this.frags, getNode);
             return function(){
               var iso = this._iso;
@@ -54,15 +85,12 @@
                   added = _.difference(actual, old),
                   removed = _.difference(old, actual);
 
-              this.vm.$nextTick(function(){        
-                var update = (!!removed.length) || (!!added.length);             
-                if (!!removed.length)
+              if ((!!removed.length) || (!!added.length))
+                this.vm.$nextTick(function(){                   
                   iso.remove(removed); 
-                if (!!added.length)
                   iso.insert(added);
-                if (update)
                   iso.layout();
-              });
+                });
             };
           },
           unbind : function (){

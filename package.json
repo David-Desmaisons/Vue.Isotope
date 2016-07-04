@@ -16,6 +16,8 @@
     "test": "test"
   },
   "dependencies": {
+    "isotope": "^3.0.1",
+    "lodash": "^4.13.1"
   },
   "devDependencies": {    
     "bower": "^1.7.9",
