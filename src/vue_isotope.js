@@ -2,7 +2,7 @@
   function buildVueIsotope(_){
 
     function mix(source, functions){
-      _.forEach(['bind', 'diff', 'unbind'],function(value){
+      _.forEach(['bind', 'diff', 'unbind', 'update'],function(value){
           var original = source[value];
           source[value] = function(){  
             var after = functions[value].apply(this, arguments);       
@@ -31,8 +31,15 @@
                }
               };
               var ctx = this, options = this.params.options;
-              options = _.isString(options) ? JSON.parse(options) : options;
-              options = _.defaults(options, defaultOptions);
+              var originalOptions = _.isString(options) ? JSON.parse(options) : options;
+              var isotopeSortOptions = originalOptions.getSortData;
+              _.forOwn(isotopeSortOptions, function(value, key){
+                if (_.isString(value))
+                  isotopeSortOptions[key] = function (itemElement){return itemElement[value];}
+              });
+
+              this.isotopeSortOptions = _.clone(isotopeSortOptions);
+              var options = _.defaults(originalOptions, defaultOptions);
 
               function getItemVm(element){
                 return element.__v_frag.raw;
@@ -40,10 +47,7 @@
 
               var sort = options.getSortData;
               _.forOwn(sort, function(value, key){
-                if (_.isString(value))
-                  sort[key] = function (itemElement){return getItemVm(itemElement)[value];}
-                else if (_.isFunction(value))
-                  sort[key] = function (itemElement){return value(getItemVm(itemElement));}
+                  sort[key] = function (itemElement){var res =  value(getItemVm(itemElement)); console.log(key, itemElement, res);return res;}
               });
 
               var filter = options.filter;
@@ -72,7 +76,23 @@
               });
             };
           },
-          diff : function (value){        
+          update : function (value){
+            _.forEach(this._listeners, function(unlisten){unlisten();});
+            return function(){
+              var vm = this.vm, ctx=this;
+              this.vm.$nextTick(function () {
+                ctx._listeners = _(ctx.isotopeSortOptions).map(function(sort){
+                  return _.map(value, function(collectionElement){
+                    return vm.$watch(function(){return sort(collectionElement);},function(){
+                        ctx._iso.reloadItems();
+                        ctx._iso.arrange();
+                    });
+                  });  
+                }).flatten().value();
+              });
+            };
+          },
+          diff : function (){        
             function getNode(frag){
               return frag.node;
             };
@@ -95,6 +115,7 @@
           },
           unbind : function (){
             return function(){
+              _.forEach(this._listeners, function(unlisten){unlisten();});
               this._iso.destroy();
             };            
           }

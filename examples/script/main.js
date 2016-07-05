@@ -7,11 +7,12 @@ var vm = new Vue({
 			{name:"John", id:25}, 
 			{name:"Joao", id: 7}, 
 			{name:"Jean", id: 101}],
+		selected:null,
 		option:{
 			 getSortData: {
         		id: "id",
         		name: function(itemElem){
-        			return itemElem.name;
+        			return itemElem.name.toLowerCase();
         		}
       		}
 		}
