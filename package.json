@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "description": "vue dragable for directive",
   "main": "src\\vue-isotope.js",
-   "files": [
+  "files": [
     "src\\vue-isotope.js"
   ],
   "keywords": [
@@ -16,10 +16,10 @@
     "test": "test"
   },
   "dependencies": {
-    "isotope": "^3.0.1",
+    "isotope-layout": "^3.0.1",
     "lodash": "^4.13.1"
   },
-  "devDependencies": {    
+  "devDependencies": {
     "bower": "^1.7.9",
     "gulp": "^3.9.1",
     "connect": "^3.4.1",
@@ -47,8 +47,7 @@
     "test": "gulp test"
   },
   "author": "David Desmaisons",
-  "bugs": {
-  },
+  "bugs": {},
   "license": "MIT",
-  "homepage": null
+  "homepage": " https://github.com/David-Desmaisons/Vue.Isotope"
 }
