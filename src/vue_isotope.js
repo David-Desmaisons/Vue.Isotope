@@ -11,7 +11,15 @@
           };
       });
     }
-    
+
+    function getItemVm(element){
+      return element.__v_frag.raw;
+    };
+
+    function getItemHTLM(element,id){
+      return element[id].node;
+    }
+
     var vueIsotope = {
       install : function(Vue) {
         var forDirective = Vue.directive('for');
@@ -41,19 +49,14 @@
               this.isotopeSortOptions = _.clone(isotopeSortOptions);
               var options = _.defaults(originalOptions, defaultOptions);
 
-              function getItemVm(element){
-                return element.__v_frag.raw;
+              function update(object){
+                _.forOwn(object, function(value, key){
+                  object[key] = function (itemElement){ return value(getItemVm(itemElement));}
+                });
               };
 
-              var sort = options.getSortData;
-              _.forOwn(sort, function(value, key){
-                  sort[key] = function (itemElement){var res =  value(getItemVm(itemElement)); console.log(key, itemElement, res);return res;}
-              });
-
-              var filter = options.filter;
-              _.forOwn(filter, function(value, key){
-                filter[key] = function (itemElement){return value(getItemVm(itemElement));}
-              });
+              update(options.getSortData);
+              update(options.filter);
 
               this.vm.$nextTick(function () {
                 var iso = new Isotope(parent, options);
@@ -84,8 +87,8 @@
                 ctx._listeners = _(ctx.isotopeSortOptions).map(function(sort){
                   return _.map(value, function(collectionElement){
                     return vm.$watch(function(){return sort(collectionElement);},function(){
-                        ctx._iso.reloadItems();
-                        ctx._iso.arrange();
+                      ctx._iso.updateSortData(getItemHTLM(collectionElement, ctx.id));
+                      ctx._iso.arrange();
                     });
                   });  
                 }).flatten().value();
