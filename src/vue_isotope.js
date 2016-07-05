@@ -1,5 +1,5 @@
 (function(){
-  function buildVueIsotope(_){
+  function buildVueIsotope(_, Isotope){
 
     function mix(source, functions){
       _.forEach(['bind', 'diff', 'unbind', 'update'],function(value){
@@ -131,12 +131,12 @@
   }
 
   if (typeof exports == "object") {
-    var _ = require("lodash.js");
+    var _ = require("lodash.js"), Isotope = require("isotope-layout");
     module.exports = buildVueIsotope(_);
   } else if (typeof define == "function" && define.amd) {
-    define(['lodash'], function(_){ return buildVueIsotope(_); });
-  } else if ((window.Vue) && (window._)) {
-    window.vueIsotope = buildVueIsotope(window._);
+    define(['lodash','Isotope'], function(_, Isotope){ return buildVueIsotope(_, Isotope); });
+  } else if ((window.Vue) && (window._) && (window.Isotope)) {
+    window.vueIsotope = buildVueIsotope(window._, window.Isotope);
     Vue.use(window.vueIsotope);
   }
 })();
