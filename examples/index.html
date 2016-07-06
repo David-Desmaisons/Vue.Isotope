@@ -28,8 +28,12 @@
         <button @click="add">Add</button>
         <button @click="replace">Replace</button>
         <button @click="isotopeSort('name')">Sort by name</button>
-        <button @click="isotopeSort('id')">Sort by id</button>
+        <button @click="isotopeSort('id')">Sort by id</button> 
+        <button @click="isotopeFilter('isEven')">Filter Even</button>
+        <button @click="isotopeFilter('isOdd')">Filter Odd</button>
+        <button @click="isotopeFilter()">Unfilter</button>
         <button @click="isotopeShuttle()">Shuttle</button>
+        
 
         <br>
         <div>

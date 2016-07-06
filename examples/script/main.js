@@ -14,6 +14,14 @@ var vm = new Vue({
         		name: function(itemElem){
         			return itemElem.name.toLowerCase();
         		}
+      		},
+      		getFilterData:{
+      			isEven: function(itemElem){
+      				return itemElem.id % 2 === 0;
+      			},
+      			isOdd: function(itemElem){
+      				return itemElem.id % 2 !== 0;
+      			}
       		}
 		}
 	},

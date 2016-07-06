@@ -62,7 +62,7 @@
               }
 
               update(options.getSortData);
-              update(options.filter);
+              update(options.getFilterData);
 
               this.vm.$nextTick(function () {
                 var iso = new Isotope(parent, options);
@@ -78,7 +78,8 @@
                     getIso(id).arrange({sortBy  :sortOption});
                   },
                   isotopeFilter : function(filterOption, id){
-                    getIso(id).arrange({filterBy :filterOption});
+                    var filter = !!filterOption ? options.getFilterData[filterOption] : function(){return true;};
+                    getIso(id).arrange({filter :filter});
                   },
                   isotopeShuttle: function(id){
                     getIso(id).shuffle();
