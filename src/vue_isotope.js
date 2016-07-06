@@ -14,10 +14,16 @@
 
     function getItemVm(element){
       return element.__v_frag.raw;
-    };
+    }
 
     function getItemHTLM(element,id){
       return element[id].node;
+    }
+
+    var isotopeInstances={named:{}, default:null};
+
+    function getIso(id){
+      return _.isUndefined(id) ? isotopeInstances.default : isotopeInstances.named[id];
     }
 
     var vueIsotope = {
@@ -38,12 +44,12 @@
                  gutter: 10
                }
               };
-              var ctx = this, options = this.params.options;
-              var originalOptions = _.isString(options) ? JSON.parse(options) : options;
+              var ctx = this, rawOptions = this.params.options;
+              var originalOptions = _.isString(rawOptions) ? JSON.parse(rawOptions) : rawOptions;
               var isotopeSortOptions = originalOptions.getSortData;
               _.forOwn(isotopeSortOptions, function(value, key){
                 if (_.isString(value))
-                  isotopeSortOptions[key] = function (itemElement){return itemElement[value];}
+                  isotopeSortOptions[key] = function (itemElement){return itemElement[value];};
               });
 
               this.isotopeSortOptions = _.clone(isotopeSortOptions);
@@ -51,9 +57,9 @@
 
               function update(object){
                 _.forOwn(object, function(value, key){
-                  object[key] = function (itemElement){ return value(getItemVm(itemElement));}
+                  object[key] = function (itemElement){ return value(getItemVm(itemElement));};
                 });
-              };
+              }
 
               update(options.getSortData);
               update(options.filter);
@@ -61,19 +67,24 @@
               this.vm.$nextTick(function () {
                 var iso = new Isotope(parent, options);
                 ctx._iso = iso;
-                parent._iso = iso;
+                if (options.id){
+                  isotopeInstances.named[options.id]=iso;
+                }
+                else{
+                  isotopeInstances.default = iso;
+                }
                 _.assign(ctx.vm,{
-                  isotopeSort : function(sortOption){
-                    iso.arrange({sortBy  :sortOption});
+                  isotopeSort : function(sortOption, id){
+                    getIso(id).arrange({sortBy  :sortOption});
                   },
-                  isotopeFilter : function(filterOption){
-                     iso.arrange({filterBy :filterOption});
+                  isotopeFilter : function(filterOption, id){
+                    getIso(id).arrange({filterBy :filterOption});
                   },
-                  isotopeShuttle: function(){
-                    iso.shuffle();
+                  isotopeShuttle: function(id){
+                    getIso(id).shuffle();
                   },
-                  isotopeArrange: function(){
-                    iso.arrange(arguments);
+                  isotopeArrange: function(id){
+                    getIso(id).arrange(arguments);
                   }
                 });
               });
@@ -98,7 +109,7 @@
           diff : function (){        
             function getNode(frag){
               return frag.node;
-            };
+            }
             var old = _.map(this.frags, getNode);
             return function(){
               var iso = this._iso;
@@ -112,7 +123,7 @@
                 this.vm.$nextTick(function(){                   
                   iso.remove(removed); 
                   iso.insert(added);
-                  iso.layout();
+                  iso.arrange();
                 });
             };
           },

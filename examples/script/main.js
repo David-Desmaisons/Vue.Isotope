@@ -9,7 +9,7 @@ var vm = new Vue({
 			{name:"Jean", id: 101}],
 		selected:null,
 		option:{
-			 getSortData: {
+			getSortData: {
         		id: "id",
         		name: function(itemElem){
         			return itemElem.name.toLowerCase();
@@ -22,7 +22,7 @@ var vm = new Vue({
 			this.list.push({name:'Juan', id:count++});
 		},
 		replace: function(){
-			this.list=[{name:'Edgard', id: count++}]
+			this.list=[{name:'Edgard', id: count++}, {name:'James', id:count++}]
 		}	
 	}
 });
