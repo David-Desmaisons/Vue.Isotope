@@ -1,0 +1,75 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Example</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+     
+     <div id="main">
+        <h1>Vue isotope For</h1>
+       
+        <div >
+            <h2>v-isotope-for</h2>
+            <div>
+                <div id="root_isotope1">
+                    <div v-isotope-for="element in list" class="item" :options='option1' @click="selected=element" >
+                    {{element.name}}
+                    <br>
+                    {{element.id}}
+                    </div>
+                 </div>
+                 <button @click="isotopeSort('name', 'first')">Sort by name</button>
+                 <button @click="isotopeSort('id', 'first')">Sort by id</button> 
+                 <button @click="isotopeFilter('isEven', 'first')">Filter Even</button>
+                 <button @click="isotopeFilter('isOdd', 'first')">Filter Odd</button>
+                 <button @click="isotopeFilter('first')">Unfilter</button>
+                 <button @click="isotopeShuttle('first')">Shuttle</button>
+            </div>
+
+             <div>
+                <div id="root_isotope2">
+                    <div v-isotope-for="element in list" class="item" :options='option2' @click="selected=element" >
+                    {{element.name}}
+                    <br>
+                    {{element.id}}
+                    </div>
+                 </div>
+                 <button @click="isotopeSort('name', 'second')">Sort by name</button>
+                 <button @click="isotopeSort('id', 'second')">Sort by id</button> 
+                 <button @click="isotopeFilter('isEven', 'second')">Filter Even</button>
+                 <button @click="isotopeFilter('isOdd', 'second')">Filter Odd</button>
+                 <button @click="isotopeFilter('second')">Unfilter</button>
+                 <button @click="isotopeShuttle('second')">Shuttle</button>
+            </div>
+         </div>
+
+        <button @click="add">Add</button>
+        <button @click="replace">Replace</button>
+
+
+        
+
+        <br>
+        <div>
+            <div v-if="selected" class="item">
+                <input type="text" name="" v-model="selected.name">
+                <br>
+                <input type="text" name="" v-model="selected.id">
+            </div>
+        </div>
+
+        <script type="text/javascript" src="..\libs\vue\dist\vue.js"></script>
+        <script type="text/javascript" src="..\libs\lodash\lodash.js"></script>
+        <script type="text/javascript" src="..\libs\isotope\isotope.pkgd.js"></script>
+        <script type="text/javascript" src="src\vue_isotope.js"></script>
+        <script type="text/javascript" src="script\complex.js"></script>
+
+    </div>
+    </body>
+</html>

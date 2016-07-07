@@ -26,6 +26,15 @@
       return _.isUndefined(id) ? isotopeInstances.default : isotopeInstances.named[id];
     }
 
+    function setIso(id, value){
+      if (id){
+        isotopeInstances.named[id]=value;
+      }
+      else{
+        isotopeInstances.default = value;
+      }
+    }
+
     var vueIsotope = {
       install : function(Vue) {
         var forDirective = Vue.directive('for');
@@ -34,7 +43,7 @@
 
         mix(dragableForDirective, {
           bind : function(){
-            parent = (!!this.params.root) ? document.getElementById(this.params.root) : this.el.parentElement;
+            var parent = (!!this.params.root) ? document.getElementById(this.params.root) : this.el.parentElement;
 
             return function () {    
               var defaultOptions={
@@ -67,12 +76,7 @@
               this.vm.$nextTick(function () {
                 var iso = new Isotope(parent, options);
                 ctx._iso = iso;
-                if (options.id){
-                  isotopeInstances.named[options.id]=iso;
-                }
-                else{
-                  isotopeInstances.default = iso;
-                }
+                setIso(options.id, iso);
                 _.assign(ctx.vm,{
                   isotopeSort : function(sortOption, id){
                     getIso(id).arrange({sortBy  :sortOption});
