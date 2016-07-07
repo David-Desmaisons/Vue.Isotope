@@ -62,6 +62,7 @@
               });
 
               this.isotopeSortOptions = _.clone(isotopeSortOptions);
+              this.isotopeFilterOptions = _.clone(originalOptions.getFilterData);
               var options = _.defaults(originalOptions, defaultOptions);
 
               function update(object){
@@ -82,7 +83,20 @@
                     getIso(id).arrange({sortBy  :sortOption});
                   },
                   isotopeFilter : function(filterOption, id){
-                    var filter = !!filterOption ? options.getFilterData[filterOption] : function(){return true;};
+                    if (!!ctx._filterlistener)
+                      ctx._filterlistener();
+                    var filter;
+                    if (!!filterOption ){
+                      filter = options.getFilterData[filterOption];
+                      var filterFunction = ctx.isotopeFilterOptions[filterOption];
+                      ctx._filterlistener = ctx.vm.$watch(function(){return _.map(ctx._value, filterFunction);},function(){
+                        ctx._iso.arrange();
+                      });
+                    }
+                    else {
+                      filter = function(){return true;};
+                      ctx._filterlistener = null;
+                    }
                     getIso(id).arrange({filter :filter});
                   },
                   isotopeShuttle: function(id){
@@ -96,6 +110,7 @@
             };
           },
           update : function (value){
+            this._value=value;
             _.forEach(this._listeners, function(unlisten){unlisten();});
             return function(){
               var vm = this.vm, ctx=this;
