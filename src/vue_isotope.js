@@ -44,11 +44,11 @@
         mix(dragableForDirective, {
           bind : function(){
             var parent = (!!this.params.root) ? document.getElementById(this.params.root) : this.el.parentElement;
+            this.el.className += " item";
 
             return function () {    
               var defaultOptions={
                layoutMode: 'masonry',
-               itemSelector: '.item',
                masonry: {
                  gutter: 10
                }
@@ -64,6 +64,7 @@
               this.isotopeSortOptions = _.clone(isotopeSortOptions);
               this.isotopeFilterOptions = _.clone(originalOptions.getFilterData);
               var options = _.defaults(originalOptions, defaultOptions);
+              options.itemSelector='.item';
 
               function update(object){
                 _.forOwn(object, function(value, key){
@@ -76,6 +77,17 @@
 
               this.vm.$nextTick(function () {
                 var iso = new Isotope(parent, options);
+                iso._requestUpdate= function(){
+                  if (!!iso._willUpdate)
+                    return;
+
+                  iso._willUpdate=true;
+                  var callingContext=this;
+                  ctx.vm.$nextTick(function(){
+                    callingContext.arrange();
+                    callingContext._willUpdate=false;
+                  });
+                };
                 ctx._iso = iso;
                 setIso(options.id, iso);
                 _.assign(ctx.vm,{
@@ -90,7 +102,7 @@
                       filter = options.getFilterData[filterOption];
                       var filterFunction = ctx.isotopeFilterOptions[filterOption];
                       ctx._filterlistener = ctx.vm.$watch(function(){return _.map(ctx._value, filterFunction);},function(){
-                        ctx._iso.arrange();
+                        ctx._iso._requestUpdate();
                       });
                     }
                     else {
@@ -119,7 +131,7 @@
                   return _.map(value, function(collectionElement){
                     return vm.$watch(function(){return sort(collectionElement);},function(){
                       ctx._iso.updateSortData(getItemHTLM(collectionElement, ctx.id));
-                      ctx._iso.arrange();
+                      ctx._iso._requestUpdate();
                     });
                   });  
                 }).flatten().value();
@@ -143,7 +155,7 @@
                 this.vm.$nextTick(function(){                   
                   iso.remove(removed); 
                   iso.insert(added);
-                  iso.arrange();
+                  iso._requestUpdate();
                 });
             };
           },
@@ -162,8 +174,8 @@
   }
 
   if (typeof exports == "object") {
-    var _ = require("lodash.js"), Isotope = require("isotope-layout");
-    module.exports = buildVueIsotope(_);
+    var _ = require("lodash"), Isotope = require("isotope-layout");
+    module.exports = buildVueIsotope(_, Isotope);
   } else if (typeof define == "function" && define.amd) {
     define(['lodash','Isotope'], function(_, Isotope){ return buildVueIsotope(_, Isotope); });
   } else if ((window.Vue) && (window._) && (window.Isotope)) {

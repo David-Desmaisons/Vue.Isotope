@@ -18,7 +18,7 @@
             <h2>v-isotope-for</h2>
             <div>
                 <div id="root_isotope1">
-                    <div v-isotope-for="element in list" class="item" :options='option1' @click="selected=element" >
+                    <div v-isotope-for="element in list" :options='option1' @click="selected=element" >
                     {{element.name}}
                     <br>
                     {{element.id}}
@@ -34,7 +34,7 @@
 
              <div>
                 <div id="root_isotope2">
-                    <div v-isotope-for="element in list" class="item" :options='option2' @click="selected=element" >
+                    <div v-isotope-for="element in list" :options='option2' @click="selected=element" >
                     {{element.name}}
                     <br>
                     {{element.id}}
