@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Simple Example</title>
+        <title>Metal Example</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,41 +15,38 @@
         <h1>Vue isotope For</h1>
        
         <div >
-            <div id="root_isotope">
-                <div v-isotope-for="element in list" :options='option' @click="selected=element" >
-                {{element.name}}
-                <br>
-                {{element.id}}
+            <div id="root_isotope1">
+                <div v-isotope-for="element in list" :options='option' @click="selected=element" class="transition">
+                    <h3 class="name">{{element.name}}</h3>
+                    <p class="symbol">{{element.symbol}}</p>
+                    <p class="number">{{element.number}}</p>
+                    <p class="weight">{{element.weight}}</p>
                 </div>
-             </div>
+            </div>
          </div>
 
-        <button @click="add">Add</button>
-        <button @click="replace">Replace</button>
-        <button @click="isotopeSort('name')">Sort by name</button>
-        <button @click="isotopeSort('id')">Sort by id</button> 
-        <button @click="isotopeFilter('isEven')">Filter Even</button>
-        <button @click="isotopeFilter('isOdd')">Filter Odd</button>
-        <button @click="isotopeFilter()">Unfilter</button>
-        <button @click="isotopeShuttle()">Shuttle</button>
-        
 
         <br>
         <div>
             <div v-if="selected" class="item">
                 <input type="text" name="" v-model="selected.name">
                 <br>
-                <input type="text" name="" v-model="selected.id">
+                <input type="text" name="" v-model="selected.symbol">
+                <br>
+                <input type="text" name="" v-model="selected.number">
+                <br>
+                <input type="text" name="" v-model="selected.weight">
             </div>
         </div>
 
-        <a href="complex.html">Nore complex example</a>
+
+        <a href="index.html">Simple example</a>
 
         <script type="text/javascript" src="..\libs\vue\dist\vue.js"></script>
         <script type="text/javascript" src="..\libs\lodash\lodash.js"></script>
         <script type="text/javascript" src="..\libs\isotope\isotope.pkgd.js"></script>
         <script type="text/javascript" src="src\vue_isotope.js"></script>
-        <script type="text/javascript" src="script\main.js"></script>
+        <script type="text/javascript" src="script\metal.js"></script>
 
     </div>
     </body>

@@ -44,7 +44,10 @@
         mix(dragableForDirective, {
           bind : function(){
             var parent = (!!this.params.root) ? document.getElementById(this.params.root) : this.el.parentElement;
-            this.el.className += " item";
+            var rawOptions = this.params.options;
+            var originalOptions = _.isString(rawOptions) ? JSON.parse(rawOptions) : rawOptions;
+            var itemClass = ((!!originalOptions) ? originalOptions.itemSelector : undefined) || ".item"
+            this.el.className += itemClass.replace('.',' ');
 
             return function () {    
               var defaultOptions={
@@ -53,27 +56,29 @@
                  gutter: 10
                }
               };
-              var ctx = this, rawOptions = this.params.options;
-              var originalOptions = _.isString(rawOptions) ? JSON.parse(rawOptions) : rawOptions;
-              var isotopeSortOptions = originalOptions.getSortData;
-              _.forOwn(isotopeSortOptions, function(value, key){
-                if (_.isString(value))
-                  isotopeSortOptions[key] = function (itemElement){return itemElement[value];};
-              });
-
-              this.isotopeSortOptions = _.clone(isotopeSortOptions);
-              this.isotopeFilterOptions = _.clone(originalOptions.getFilterData);
+              var ctx = this;
               var options = _.defaults(originalOptions, defaultOptions);
-              options.itemSelector='.item';
-
-              function update(object){
-                _.forOwn(object, function(value, key){
-                  object[key] = function (itemElement){ return value(getItemVm(itemElement));};
+              if (originalOptions){
+                var isotopeSortOptions = originalOptions.getSortData;
+                _.forOwn(isotopeSortOptions, function(value, key){
+                  if (_.isString(value))
+                    isotopeSortOptions[key] = function (itemElement){return itemElement[value];};
                 });
+
+                this.isotopeSortOptions = _.clone(isotopeSortOptions);
+                this.isotopeFilterOptions = _.clone(originalOptions.getFilterData);
+
+                function update(object){
+                  _.forOwn(object, function(value, key){
+                    object[key] = function (itemElement){ return value(getItemVm(itemElement));};
+                  });
+                }
+
+                update(options.getSortData);
+                update(options.getFilterData);
               }
 
-              update(options.getSortData);
-              update(options.getFilterData);
+              options.itemSelector = itemClass;
 
               this.vm.$nextTick(function () {
                 var iso = new Isotope(parent, options);
@@ -89,7 +94,8 @@
                   });
                 };
                 ctx._iso = iso;
-                setIso(options.id, iso);
+                var optionId = (!!options) ? options.id: undefined;
+                setIso(optionId, iso);
                 _.assign(ctx.vm,{
                   isotopeSort : function(sortOption, id){
                     getIso(id).arrange({sortBy  :sortOption});
