@@ -13,34 +13,30 @@
      
      <div id="main">
         <h1>Vue isotope For</h1>
+
+        <h2>Filter</h2>
+        <div class="button-group">  
+            <button v-for="(key, val) in option.getFilterData" class="button" :class="[key===filterOption? 'is-checked' : '']"  @click="filter(key)">{{key}}
+            </button>
+        </div>
+
+        <h2>Sort</h2>
+        <div class="button-group">
+          <button class="button" :class="[sortOption==='original-order'? 'is-checked' : '']"  @click="sort('original-order')">original order</button> 
+          <button v-for="(key, val) in option.getSortData" class="button" :class="[key===sortOption? 'is-checked' : '']"  @click="sort(key)">{{key}}</button>
+        </div>
        
-        <div >
-            <div id="root_isotope1">
-                <div v-isotope-for="element in list" :options='option' @click="selected=element" class="transition">
-                    <h3 class="name">{{element.name}}</h3>
-                    <p class="symbol">{{element.symbol}}</p>
-                    <p class="number">{{element.number}}</p>
-                    <p class="weight">{{element.weight}}</p>
-                </div>
-            </div>
-         </div>
-
-
-        <br>
-        <div>
-            <div v-if="selected" class="item">
-                <input type="text" name="" v-model="selected.name">
-                <br>
-                <input type="text" name="" v-model="selected.symbol">
-                <br>
-                <input type="text" name="" v-model="selected.number">
-                <br>
-                <input type="text" name="" v-model="selected.weight">
+        <div id="root_isotope1">
+            <div v-isotope-for="element in list" :options='option' v-bind:class='[element.category]' @click="selected=element">
+                <h3 class="name">{{element.name}}</h3>
+                <p class="symbol">{{element.symbol}}</p>
+                <p class="number">{{element.number}}</p>
+                <p class="weight">{{element.weight}}</p>
             </div>
         </div>
 
-
         <a href="index.html">Simple example</a>
+        <a href="complex.html">More complex example</a>
 
         <script type="text/javascript" src="..\libs\vue\dist\vue.js"></script>
         <script type="text/javascript" src="..\libs\lodash\lodash.js"></script>

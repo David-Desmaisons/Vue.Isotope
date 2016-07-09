@@ -46,7 +46,7 @@
             var parent = (!!this.params.root) ? document.getElementById(this.params.root) : this.el.parentElement;
             var rawOptions = this.params.options;
             var originalOptions = _.isString(rawOptions) ? JSON.parse(rawOptions) : rawOptions;
-            var itemClass = ((!!originalOptions) ? originalOptions.itemSelector : undefined) || ".item"
+            var itemClass = ((!!originalOptions) ? originalOptions.itemSelector : undefined) || ".item";
             this.el.className += itemClass.replace('.',' ');
 
             return function () {    
@@ -68,11 +68,11 @@
                 this.isotopeSortOptions = _.clone(isotopeSortOptions);
                 this.isotopeFilterOptions = _.clone(originalOptions.getFilterData);
 
-                function update(object){
+                var update = function (object){
                   _.forOwn(object, function(value, key){
                     object[key] = function (itemElement){ return value(getItemVm(itemElement));};
                   });
-                }
+                };
 
                 update(options.getSortData);
                 update(options.getFilterData);
