@@ -168,6 +168,8 @@
           },
           unbind : function (){
             return function(){
+              if (!!this._filterlistener)
+                this._filterlistener();
               _.forEach(this._listeners, function(unlisten){unlisten();});
               this._iso.destroy();
             };            
