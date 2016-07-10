@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Metal Example</title>
+        <title>Isotope Example</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -27,7 +27,7 @@
         </div>
        
         <div id="root_isotope1">
-            <div v-isotope-for="element in list" :options='option' v-bind:class='[element.category]' @click="selected=element">
+            <div v-isotope-for="element in list" :options='option' v-bind:class='[element.category]'>
                 <h3 class="name">{{element.name}}</h3>
                 <p class="symbol">{{element.symbol}}</p>
                 <p class="number">{{element.number}}</p>

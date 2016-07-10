@@ -47,26 +47,73 @@ var vm = new Vue({
 				symbol: "K", 
 				number: 19, 
 				weight: 39.0983,
-				category: "alkali"
+				category: "alkali",
+				metal: true
 			},
 			{ 
 				name: "Sodium", 
 				symbol: "Na", 
 				number: 11, 
 				weight: 22.99,
-				category: "alkali"
-			}],
+				category: "alkali",
+				metal: true
+			},
+			{ 
+				name: "Cadmium", 
+				symbol: "Cd", 
+				number: 48, 
+				weight: 112.411,
+				category: "transition",
+				metal: true
+			},
+			{ 
+				name: "Calcium", 
+				symbol: "Ca", 
+				number: 20, 
+				weight: 40.078,
+				category: "alkaline-earth",
+				metal: true
+			},
+			{
+				name: "Rhenium", 
+				symbol: "Re", 
+				number: 75, 
+				weight: 186.207,
+				category: "transition",
+				metal: true				
+			},
+			{
+				name: "Ytterbium", 
+				symbol: "Yb", 
+				number: 70, 
+				weight: 173.054,
+				category: "lanthanoid"				
+			},],
 		selected: null,
 		sortOption: "original-order",
 		filterOption: "show all",
 		option:{
 			itemSelector : ".element-item",
 			getFilterData: {
-			    "show all": function(){return true;},
-			    metal: function(el){return !!el.metal;},
-			    transition: function(el){return el.category==="transition";},
-			    "not transition": function(el){return el.category!=="transition";},
-				"alkali and alkaline-earth": function(el){return el.category==="alkali";},
+			    "show all": function(){
+			    	return true;
+			    },
+			    metal: function(el){
+			    	return !!el.metal;
+			    },
+			    transition: function(el){
+			    	return el.category==="transition";
+			    },				
+			    "alkali and alkaline-earth": function(el){
+					return el.category==="alkali" || el.category==="alkaline-earth";
+				},
+			    "not transition": function(el){
+			    	return el.category!=="transition";
+			    },
+
+				"metal but not transition": function(el){
+					return !!el.metal && el.category!=="transition";
+				},
 				"number > 50": function(el) {
     				return el.number > 50;
   				},

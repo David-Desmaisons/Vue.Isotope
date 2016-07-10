@@ -42,6 +42,10 @@ body {
   background-color: #28F;
 }
 
+.is-checked {
+  background-color: #28F;
+}
+
 .button.is-checked {
   color: white;
   text-shadow: 0 -1px hsla(0, 0%, 0%, 0.8);
@@ -84,6 +88,10 @@ body {
   content: '';
   display: block;
   clear: both;
+}
+
+.isoDefault {
+  min-height: 210px;
 }
 
 /* ---- .element-item ---- */

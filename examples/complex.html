@@ -16,35 +16,35 @@
        
         <div >
             <div>
-                <div id="root_isotope1">
+                <div id="root_isotope1" class="isoDefault" >
                     <div v-isotope-for="element in list" :options='option1' @click="selected=element" >
                     {{element.name}}
                     <br>
                     {{element.id}}
                     </div>
                  </div>
-                 <button @click="isotopeSort('name', 'first')">Sort by name</button>
-                 <button @click="isotopeSort('id', 'first')">Sort by id</button> 
-                 <button @click="isotopeFilter('isEven', 'first')">Filter Even</button>
-                 <button @click="isotopeFilter('isOdd', 'first')">Filter Odd</button>
-                 <button @click="isotopeFilter('first')">Unfilter</button>
-                 <button @click="isotopeShuttle('first')">Shuttle</button>
+                 <button :class="[sortOption.first==='name' ? 'is-checked' : '']" @click="sort('name', 'first')">Sort by name</button>
+                 <button :class="[sortOption.first==='id' ? 'is-checked' : '']"  @click="sort('id', 'first')">Sort by id</button> 
+                 <button :class="[filterOption.first==='isEven' ? 'is-checked' : '']" @click="filter('isEven', 'first')">Filter Even</button>
+                 <button :class="[filterOption.first==='isOdd' ? 'is-checked' : '']"  @click="filter('isOdd', 'first')">Filter Odd</button>
+                 <button  @click="filter(null, 'first')">Unfilter</button>
+                 <button @click="shuttle('first')">Shuttle</button>
             </div>
 
              <div>
-                <div id="root_isotope2">
+                <div id="root_isotope2" class="isoDefault">
                     <div v-isotope-for="element in list" :options='option2' @click="selected=element" >
                     {{element.name}}
                     <br>
                     {{element.id}}
                     </div>
                  </div>
-                 <button @click="isotopeSort('name', 'second')">Sort by name</button>
-                 <button @click="isotopeSort('id', 'second')">Sort by id</button> 
-                 <button @click="isotopeFilter('isEven', 'second')">Filter Even</button>
-                 <button @click="isotopeFilter('isOdd', 'second')">Filter Odd</button>
-                 <button @click="isotopeFilter('second')">Unfilter</button>
-                 <button @click="isotopeShuttle('second')">Shuttle</button>
+                 <button :class="[sortOption.second==='name' ? 'is-checked' : '']" @click="sort('name', 'second')">Sort by name</button>
+                 <button :class="[sortOption.second==='id' ? 'is-checked' : '']" @click="sort('id', 'second')">Sort by id</button> 
+                 <button :class="[filterOption.second==='isEven' ? 'is-checked' : '']"  @click="filter('isEven', 'second')">Filter Even</button>
+                 <button :class="[filterOption.second==='isOdd' ? 'is-checked' : '']" @click="filter('isOdd', 'second')">Filter Odd</button>
+                 <button @click="filter(null, 'second')">Unfilter</button>
+                 <button @click="shuttle('second')">Shuttle</button>
             </div>
          </div>
 
