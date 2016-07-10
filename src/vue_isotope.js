@@ -70,7 +70,7 @@
 
                 var update = function (object){
                   _.forOwn(object, function(value, key){
-                    object[key] = function (itemElement){ return value(getItemVm(itemElement), ctx.vm);};
+                    object[key] = function (itemElement){ return value.call(ctx.vm, getItemVm(itemElement));};
                   });
                 };
 
@@ -106,7 +106,7 @@
                     var filter;
                     if (!!filterOption ){
                       filter = options.getFilterData[filterOption];
-                      var filterFunction = function(el) {return ctx.isotopeFilterOptions[filterOption](el, ctx.vm);};
+                      var filterFunction = function(el) {return ctx.isotopeFilterOptions[filterOption].call(ctx.vm, el);};
                       ctx._filterlistener = ctx.vm.$watch(function(){return _.map(ctx._value, filterFunction);},function(){
                         ctx._iso._requestUpdate();
                       });
@@ -135,7 +135,7 @@
               this.vm.$nextTick(function () {
                 ctx._listeners = _(ctx.isotopeSortOptions).map(function(sort){
                   return _.map(value, function(collectionElement){
-                    var sortFunction = function(el) {return sort(el, ctx.vm);};
+                    var sortFunction = function(el) {return sort.call(ctx.vm, el);};
                     return vm.$watch(function(){return sortFunction(collectionElement);},function(){
                       ctx._iso.updateSortData(getItemHTLM(collectionElement, ctx.id));
                       ctx._iso._requestUpdate();

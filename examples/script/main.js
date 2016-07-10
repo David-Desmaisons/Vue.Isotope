@@ -26,8 +26,8 @@ var vm = new Vue({
       			isOdd: function(itemElem){
       				return itemElem.id % 2 !== 0;
       			},
-      			filterByText: function(itemElem, vm){
-        			return itemElem.name.toLowerCase().includes(vm.filterText.toLowerCase());
+      			filterByText: function(itemElem){
+        			return itemElem.name.toLowerCase().includes(this.filterText.toLowerCase());
         		}
       		}
 		}
