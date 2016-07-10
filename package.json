@@ -49,5 +49,9 @@
   "author": "David Desmaisons",
   "bugs": {},
   "license": "MIT",
-  "homepage": " https://github.com/David-Desmaisons/Vue.Isotope"
+  "homepage": " https://github.com/David-Desmaisons/Vue.Isotope#readme",
+  "repository":{
+    "type" : "git",
+    "url" : "https://github.com/David-Desmaisons/Vue.Isotope.git"
+  }
 }
