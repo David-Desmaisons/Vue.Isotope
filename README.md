@@ -9,7 +9,7 @@ The underlying
 
 ##Demo
 
-![demo gif](https://raw.githubusercontent.com/David-Desmaisons/Vue.Isotope/master/testvuesitope.gif)
+![demo gif](https://raw.githubusercontent.com/David-Desmaisons/Vue.Isotope/master/example1.gif)
 
 Basic:
 
@@ -21,6 +21,7 @@ https://jsfiddle.net/dede89/g6c0vzm2/
 
 Isotope elements demo with vue template:
 
+![demo gif](https://raw.githubusercontent.com/David-Desmaisons/Vue.Isotope/master/example2.gif)
 https://jsfiddle.net/dede89/14nd6g0q/
 
 ##Features
