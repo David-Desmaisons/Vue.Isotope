@@ -74,7 +74,7 @@ https://jsfiddle.net/dede89/14nd6g0q/
   Another useful method is isotopeShutle(id) to dispaly a random order.
   
       this.isotopeShuttle(id);
-  
+
 ##Usage
 
 Use it exactly as v-for directive, passing optional parameters using 'options' parameter.
@@ -85,9 +85,29 @@ Use it exactly as v-for directive, passing optional parameters using 'options' p
   </div>
    ```
 
+## Installation
+- Available through:
+``` js
+ npm install vueisotope
+```
+``` js
+ Bower install vueisotope
+```
+- #### For Modules
+
+  ``` js
+  // ES6
+  import Vue from 'vue'
+  import Vueisotope from 'Vueisotope'
+  Vue.use(Vueisotope)
+
+  // ES5
+  var Vue = require('vue')
+  Vue.use(require('Vueisotope'))
+  ```
 - #### For `<script>` Include
 
-  Just include `vue.istope.js` after Vue and lodash(>=3).
+  Just include `vue.istope.js` after Vue and lodash(>=4).
   
 ## License
   
