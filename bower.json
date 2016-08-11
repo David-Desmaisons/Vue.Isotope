@@ -27,5 +27,13 @@
     "vue": "^1.0.25",
     "isotope": "^3.0.1",
     "lodash": "^4.13.1"
+  },
+  "devDependencies": {
+    "isotope-cells-by-column": "^1.1.3",
+    "isotope-packery": "^2.0.0",
+    "isotope-cells-by-row": "^1.1.3",
+    "isotope-masonry-horizontal": "^2.0.0",
+    "isotope-horizontal": "^2.0.0",
+    "isotope-fit-columns": "^1.1.3"
   }
 }

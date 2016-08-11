@@ -67,7 +67,14 @@ var mainBowerFiles = require('gulp-main-bower-files');
 
 gulp.task('main-bower-files', function() {
     return gulp.src('./bower.json')
-        .pipe(mainBowerFiles())
+        .pipe(mainBowerFiles({
+            includeDev:true, 
+            overrides: {
+                "isotope-packery": {
+                    main: "packery-mode.pkgd.js"
+                }
+            }
+        }))
         .pipe(gulp.dest('./examples/libs'));
 });
 
@@ -119,5 +126,4 @@ gulp.task('watch', ['connect', 'serve'], function () {
         changedSpec = event.path
         gulp.start('test')
     });
-
 });

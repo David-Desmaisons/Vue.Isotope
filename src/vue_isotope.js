@@ -120,8 +120,8 @@
                   isotopeShuttle: function(id){
                     getIso(id).shuffle();
                   },
-                  isotopeArrange: function(id){
-                    getIso(id).arrange(arguments);
+                  isotopeArrange: function(layout, id){
+                    getIso(id).arrange(layout);
                   }
                 });
               });

@@ -25,6 +25,14 @@
           <button class="button" :class="[sortOption==='original-order'? 'is-checked' : '']"  @click="sort('original-order')">original order</button> 
           <button v-for="(key, val) in option.getSortData" class="button" :class="[key===sortOption? 'is-checked' : '']"  @click="sort(key)">{{key}}</button>
         </div>
+
+
+        <h2>Layout</h2>
+        <div>
+            <button v-for="layout in layouts" :class="[layout===currentLayout? 'is-checked' : '']" class="button" @click="changeLayout(layout)">
+              {{layout}}
+            </button>
+        </div>
        
         <div id="root_isotope1">
             <div v-isotope-for="element in list" :options='option' v-bind:class='[element.category]'>
@@ -41,6 +49,12 @@
         <script type="text/javascript" src="..\libs\vue\dist\vue.js"></script>
         <script type="text/javascript" src="..\libs\lodash\lodash.js"></script>
         <script type="text/javascript" src="..\libs\isotope\isotope.pkgd.js"></script>
+        <script type="text/javascript" src="..\libs\isotope-cells-by-column\cells-by-column.js"></script>
+        <script type="text/javascript" src="..\libs\isotope-cells-by-row\cells-by-row.js"></script>
+        <script type="text/javascript" src="..\libs\isotope-horizontal\horizontal.js"></script>
+        <script type="text/javascript" src="..\libs\isotope-masonry-horizontal\masonry-horizontal.js"></script>
+        <script type="text/javascript" src="..\libs\isotope-fit-columns\fit-columns.js"></script>
+        <script type="text/javascript" src="..\libs\isotope-packery\packery-mode.pkgd.js"></script>
         <script type="text/javascript" src="src\vue_isotope.js"></script>
         <script type="text/javascript" src="script\metal.js"></script>
 

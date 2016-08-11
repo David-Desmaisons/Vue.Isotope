@@ -3,6 +3,18 @@ var count=0;
 var vm = new Vue({
 	el: "#main",
 	data: {
+		layouts:[
+			"masonry",
+			"fitRows",
+			"cellsByRow",
+			"vertical",
+			"packery",
+			"masonryHorizontal",
+			"fitColumns",
+			"cellsByColumn",
+			"horiz"
+		],
+		currentLayout:"masonry",
 		list:[{ 
 				name: "Mercury", 
 				symbol: "Hg", 
@@ -127,6 +139,20 @@ var vm = new Vue({
 			    number: "number", 
 				weight: "weight",
 				category: "category"
+			},
+			cellsByRow: {
+			    columnWidth: 220,
+			    rowHeight: 220
+			},
+			masonryHorizontal: {
+			    rowHeight: 110
+			},
+			cellsByColumn: {
+				columnWidth: 220,
+			    rowHeight: 220
+			},
+			packery: {
+  				gutter: 10
 			}
 		}
 	},
@@ -138,6 +164,10 @@ var vm = new Vue({
 		filter : function(key){
 			this.isotopeFilter(key);
 			this.filterOption=key;
-		}	
+		},
+		changeLayout: function(key) {
+		  this.currentLayout = key;
+		  this.isotopeArrange({ layoutMode:key});	  
+		}
 	}
 });
