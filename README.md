@@ -22,7 +22,7 @@ https://jsfiddle.net/dede89/g6c0vzm2/
 Isotope elements demo with vue template:
 
 ![demo gif](https://raw.githubusercontent.com/David-Desmaisons/Vue.Isotope/master/example2.gif)
-https://jsfiddle.net/dede89/14nd6g0q/
+https://jsfiddle.net/dede89/d117mj5u/
 
 ##Features
 
@@ -71,9 +71,16 @@ https://jsfiddle.net/dede89/14nd6g0q/
   
       this.isotopeFilter(key, id);
       
-  Another useful method is isotopeShutle(id) to dispaly a random order.
+  Another useful method is isotopeShutle(id) to display a random order.
   
       this.isotopeShuttle(id);
+
+###Toogle Layout
+  Similarly, it is possible to update the layout mode using the following method: 
+  
+      this.isotopeArrange(arrangeOption, id);
+      
+  where arrangeOption is the same as described in isotope documentation and the id teh same as described in filtering and sorting section.
 
 ##Usage
 
