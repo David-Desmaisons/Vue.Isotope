@@ -2,9 +2,9 @@
   "name": "vueisotope",
   "version": "1.0.2",
   "description": "vue dragable for directive",
-  "main": "src/vue-isotope.js",
+  "main": "src/vue_isotope.js",
   "files": [
-    "src/vue-isotope.js"
+    "src/vue_isotope.js"
   ],
   "keywords": [
     "vue",
