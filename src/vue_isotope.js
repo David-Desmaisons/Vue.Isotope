@@ -147,7 +147,17 @@
           },
           diff : function (){        
             function getNode(frag){
-              return frag.node;
+              var node = null;
+              switch (frag.node.nodeType)
+              {
+                case 1: // element node
+                    node = frag.node;
+                    break;
+                case 3: // text node
+                    node = frag.node.__v_frag.children[0].$el;
+                    break;
+              }
+              return node;
             }
             var old = _.map(this.frags, getNode);
             return function(){
