@@ -13,7 +13,10 @@
     }
 
     function getItemVm(element){
-      return element.__v_frag.raw;
+      if (!!element.__v_frag)
+        return element.__v_frag.raw;
+
+      return element.__vue__._frag.raw;
     }
 
     function getItemHTLM(element,id){
@@ -52,6 +55,7 @@
             return function () {    
               var defaultOptions={
                layoutMode: 'masonry',
+               itemSelector: itemClass,
                masonry: {
                  gutter: 10
                }
@@ -79,6 +83,7 @@
               }
 
               options.itemSelector = itemClass;
+              this.options= options;
 
               this.vm.$nextTick(function () {
                 var iso = new Isotope(parent, options);
@@ -145,16 +150,21 @@
               });
             };
           },
-          diff : function (){        
+          diff : function (){
+          var itemClass = this.options.itemSelector.substring(1);      
             function getNode(frag){
-              return frag.node;
+              return _.chain(frag.children)
+                      .map(function(comp){return comp.$el})
+                      .concat(frag.node)
+                      .filter(function(el){return !!el.className && el.className.indexOf(itemClass)>-1;})
+                      .value()
             }
-            var old = _.map(this.frags, getNode);
+            var old = _.flatMap(this.frags, getNode);
             return function(){
               var iso = this._iso;
               if (!iso)
                 return;
-              var actual = _.map(this.frags, getNode),
+              var actual = _.flatMap(this.frags, getNode),
                   added = _.difference(actual, old),
                   removed = _.difference(old, actual);
 

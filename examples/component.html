@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Simple Example</title>
+        <title>Component Example</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,15 +13,12 @@
      
      <div id="main">
         <h1>Vue isotope For</h1>
-        
-        
+
+                
         <div>
             <div id="root_isotope" class="isoDefault">
-                <div v-isotope-for="element in list" :options='option' @click="selected=element" >
-                {{element.name}}
-                <br>
-                {{element.id}}
-                </div>
+                <box v-isotope-for="element in list" :options='option' @click="selected=element" :elem="element" >
+                </box>
              </div>
          </div>
 
@@ -51,15 +48,15 @@
             </div>
         </div>
 
+        <a href="index.html">Simple example</a>
         <a href="complex.html">More complex example</a>
         <a href="metal.html">Isotope example</a>
-        <a href="component.html">Component example</a>
 
         <script type="text/javascript" src="..\libs\vue\dist\vue.js"></script>
         <script type="text/javascript" src="..\libs\lodash\lodash.js"></script>
         <script type="text/javascript" src="..\libs\isotope\isotope.pkgd.js"></script>
         <script type="text/javascript" src="src\vue_isotope.js"></script>
-        <script type="text/javascript" src="script\main.js"></script>
+        <script type="text/javascript" src="script\main_component.js"></script>
 
     </div>
     </body>
