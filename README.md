@@ -86,7 +86,13 @@ https://jsfiddle.net/dede89/d117mj5u/
   
       this.isotopeArrange(arrangeOption, id);
       
-  where arrangeOption is the same as described in isotope documentation and the id teh same as described in filtering and sorting section.
+  where arrangeOption is the same as described in isotope documentation and the id the same as described in filtering and sorting section as this method will call isope arrange method.
+  
+  Alternatively, you can use isotopeLayout method: 
+  
+    this.isotopeLayout(id);
+    
+  that will internally call isotope layout method.
 
 ##Usage
 
