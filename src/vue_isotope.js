@@ -127,6 +127,9 @@
                   },
                   isotopeArrange: function(layout, id){
                     getIso(id).arrange(layout);
+                  },
+                  isotopeLayout: function(id){
+                    getIso(id).layout();
                   }
                 });
               });
