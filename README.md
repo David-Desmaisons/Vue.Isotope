@@ -1,6 +1,6 @@
 # Vue.Isotope
-[![GitHub open issues](https://img.shields.io/github/issues/David-Desmaisons/Vue.Isotope.svg?maxAge=2592000)]()
-[![GitHub closed issues](https://img.shields.io/github/issues-closed/David-Desmaisons/Vue.Isotope.svg?maxAge=2592000)]()
+[![GitHub open issues](https://img.shields.io/github/issues/David-Desmaisons/Vue.Isotope.svg?maxAge=2592000)](https://github.com/David-Desmaisons/Vue.Isotope/issues)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/David-Desmaisons/Vue.Isotope.svg?maxAge=2592000)](https://github.com/David-Desmaisons/Vue.Isotope/issues)
 [![Npm download](https://img.shields.io/npm/dt/vueisotope.svg?maxAge=2592000)](https://www.npmjs.com/package/vuedragablefor)
 [![Npm version](https://img.shields.io/npm/v/vueisotope.svg?maxAge=2592000)](https://www.npmjs.com/package/vuedragablefor)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Vue.Isotope.svg)](https://github.com/David-Desmaisons/Vue.Dragable.For/blob/master/LICENSE)
