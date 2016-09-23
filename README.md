@@ -99,7 +99,7 @@ https://jsfiddle.net/dede89/d117mj5u/
 Use it exactly as v-for directive, passing optional parameters using 'options' parameter.
 
   ``` html
-  <div v-isotope="element in list1">
+  <div v-isotope-for="element in list1">
     <p>{{element.name}}</p>
   </div>
    ```
