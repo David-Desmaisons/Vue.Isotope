@@ -36,6 +36,19 @@ https://jsfiddle.net/dede89/d117mj5u/
 * Reactive directive that dislpays change in case in case of property impacting sorting or filtering
 * Provides filter and sort based on ViewModel information
 
+##Usage
+
+Use it exactly as v-for directive, passing optional parameters using 'options' parameter.
+The isotope elements should be wrapped inside a div root element
+
+  ``` html
+  <div>
+    <div v-isotope-for="element in list1">
+      <p>{{element.name}}</p>
+    </div>
+  </div>
+   ```
+
 ##API:
 ###Options
 * All value are similar as isotope options expect for:
@@ -94,16 +107,6 @@ https://jsfiddle.net/dede89/d117mj5u/
     
   that will internally call isotope layout method.
 
-##Usage
-
-Use it exactly as v-for directive, passing optional parameters using 'options' parameter.
-
-  ``` html
-  <div v-isotope-for="element in list1">
-    <p>{{element.name}}</p>
-  </div>
-   ```
-
 ## Installation
 - Available through:
 ``` js
@@ -127,6 +130,9 @@ Use it exactly as v-for directive, passing optional parameters using 'options' p
 - #### For `<script>` Include
 
   Just include `vue.istope.js` after Vue and lodash(>=4).
+  
+- #### Webpack and Browserify usage:
+  Be aware of isotope recomendation for usage with [Webpack](http://isotope.metafizzy.co/extras.html#webpack) and [Browserify](http://isotope.metafizzy.co/extras.html#browserify)
   
 ## License
   
