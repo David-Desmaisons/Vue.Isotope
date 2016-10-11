@@ -5,10 +5,16 @@ var gulp = require('gulp');
 
 // load plugins
 var $ = require('gulp-load-plugins')();
+const babel = require('gulp-babel');
+
+
 
 
 gulp.task('scripts', function () {
     return gulp.src('src/**/*.js')
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe($.jshint())
         .pipe($.jshint.reporter(require('jshint-stylish')))
         .pipe($.size());
@@ -21,6 +27,9 @@ gulp.task('js', ['scripts'], function () {
     var jsFilter = $.filter('**/*.js', {restore: true});
 
     return gulp.src('src/**/*.js')
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe($.uglify())
         .pipe(rename({
             suffix: '.min'
@@ -80,6 +89,9 @@ gulp.task('main-bower-files', function() {
 
 gulp.task('copy-js', function() {
     return gulp.src('src/**/*.js')
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(gulp.dest('./examples/src'));
 });
 

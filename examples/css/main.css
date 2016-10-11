@@ -7,6 +7,7 @@
   box-sizing: border-box;
   font-family: monospace;
   color: #333;
+  border: 2px solid #b6b5b4;
 }
 
 * { box-sizing: border-box; }

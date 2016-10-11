@@ -16,13 +16,13 @@
         
         
         <div>
-            <div id="root_isotope" class="isoDefault">
-                <div v-isotope-for="element in list" :options='option' @click="selected=element" >
+            <isotope id="root_isotope" class="isoDefault" :options='option' itemselector="item">
+                <div v-for="element in list"  @click="selected=element">
                 {{element.name}}
                 <br>
                 {{element.id}}
                 </div>
-             </div>
+             </isotope>
          </div>
 
         <div id="change">
@@ -55,12 +55,14 @@
         <a href="metal.html">Isotope example</a>
         <a href="component.html">Component example</a>
 
+    
+
+    </div>    
+
         <script type="text/javascript" src="..\libs\vue\dist\vue.js"></script>
         <script type="text/javascript" src="..\libs\lodash\lodash.js"></script>
         <script type="text/javascript" src="..\libs\isotope\isotope.pkgd.js"></script>
         <script type="text/javascript" src="src\vue_isotope.js"></script>
         <script type="text/javascript" src="script\main.js"></script>
-
-    </div>
     </body>
 </html>

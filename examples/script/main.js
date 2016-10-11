@@ -19,17 +19,17 @@ var vm = new Vue({
         			return itemElem.name.toLowerCase();     
         		}
         	},
-      		getFilterData:{
-      			isEven: function(itemElem){
-      				return itemElem.id % 2 === 0;
-      			},
-      			isOdd: function(itemElem){
-      				return itemElem.id % 2 !== 0;
-      			},
-      			filterByText: function(itemElem){
-        			return itemElem.name.toLowerCase().includes(this.filterText.toLowerCase());
-        		}
-      		}
+   //    		getFilterData:{
+   //    			isEven: function(itemElem){
+   //    				return itemElem.id % 2 === 0;
+   //    			},
+   //    			isOdd: function(itemElem){
+   //    				return itemElem.id % 2 !== 0;
+   //    			},
+   //    			filterByText: function(itemElem){
+   //      			return itemElem.name.toLowerCase().includes(this.filterText.toLowerCase());
+   //      		}
+   //    		}
 		}
 	},
 	methods:{
