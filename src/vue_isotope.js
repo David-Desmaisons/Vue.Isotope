@@ -1,74 +1,56 @@
 (function(){
   function buildVueIsotope(_, Isotope){
 
-    // function mix(source, functions){
-    //   _.forEach(['bind', 'diff', 'unbind', 'update'],function(value){
-    //       var original = source[value];
-    //       source[value] = function(){  
-    //         var after = functions[value].apply(this, arguments);       
-    //         original.apply(this, arguments);
-    //         after.apply(this, arguments);
-    //       };
-    //   });
-    // }
-
     function addClass(node, classValue){
-      node.data.staticClass = node.data.staticClass + " " + classValue
+      const initValue = (node.data.staticClass === undefined) ? "" : node.data.staticClass + " "
+      node.data.staticClass = initValue + classValue
     }
 
     function getItemVm(element){
-      if (!!element.__v_frag)
-        return element.__v_frag.raw;
-
-      return element.__vue__._frag.raw;
+      return null
     }
 
     function getItemHTLM(element,id){
-      return element[id].node;
+      return null
     }
 
     const props = {
       options : Object,
-       itemselector : {
+      itemselector : {
         type: String,
         required: true
       }
     }
 
-    function install (Vue) {
-      var isotope ={
-        props,
+    var isotopeComponent ={
+      props,
 
-        render (h) {
-          const slots = this.$slots.default
-          slots.forEach( elt => addClass(elt, this.itemselector))
-          return h('div', null, this.$slots.default)
-        },
+      render (h) {
+        const slots = this.$slots.default
+        slots.forEach( elt => addClass(elt, this.itemselector))
+        return h('div', null, this.$slots.default)
+      },
 
-        mounted () {
-          const options = _.merge(this.options.itemSelector, {itemSelector: "." + this.itemselector}) 
-          var update = function (object){
-            _.forOwn(object, function(value, key){
-              object[key] = function (itemElement){ return value.call(ctx.vm, getItemVm(itemElement));};
-            });
-          };
-          update(options.getSortData);
-          
-          const elt = this.$el
-          this.$nextTick( () => {
-            var iso = new Isotope(elt, options);
-          })
-        }
-      };
+      mounted () {
+        const options = _.merge(this.options.itemSelector, {itemSelector: "." + this.itemselector}) 
+        var update = (object) => {
+          _.forOwn(object, (value, key) => {
+            object[key] = (itemElement) => { return value.call(ctx.vm, getItemVm(itemElement));};
+          });
+        };
+        update(options.getSortData);
+        
+        this.$nextTick( () => {
+          this.iso = new Isotope(this.$el, options);
+        })
+      },
 
-      Vue.component('isotope', isotope);
-    }
+      beforedestroy (){
+        this.iso.destroy()
+      }
+    };
 
-    var vueIsotope = {
-      install
-    }
-
-    return vueIsotope;
+    return isotopeComponent;
   }
 
   if (typeof exports == "object") {
@@ -77,7 +59,7 @@
   } else if (typeof define == "function" && define.amd) {
     define(['lodash','Isotope'], function(_, Isotope){ return buildVueIsotope(_, Isotope); });
   } else if ((window.Vue) && (window._) && (window.Isotope)) {
-    var vueIsotope = buildVueIsotope(window._, window.Isotope);
-    Vue.use(vueIsotope);
+    var isotope = buildVueIsotope(window._, window.Isotope);
+    Vue.component('isotope', isotope)
   }
 })();
