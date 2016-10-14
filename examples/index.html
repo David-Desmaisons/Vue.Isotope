@@ -16,7 +16,7 @@
         
         
         <div>
-            <isotope id="root_isotope" class="isoDefault" :options='option' itemselector="item">
+            <isotope id="root_isotope" class="isoDefault" :options='option' :list="list">
                 <div v-for="element in list"  @click="selected=element">
                 {{element.name}}
                 <br>

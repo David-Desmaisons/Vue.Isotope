@@ -13,6 +13,10 @@ var vm = new Vue({
 		filterOption:null,
 		filterText: "",
 		option:{
+			layoutMode: 'masonry',
+          	masonry: {
+            	gutter: 10
+          	},
 			getSortData: {
         		id: "id",
         		name: function(itemElem){
