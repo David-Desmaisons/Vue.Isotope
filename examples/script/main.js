@@ -17,12 +17,12 @@ var vm = new Vue({
           	masonry: {
             	gutter: 10
           	},
-			getSortData: {
-        		id: "id",
-        		name: function(itemElem){
-        			return itemElem.name.toLowerCase();     
-        		}
-        	},
+			// getSortData: {
+   //      		id: "id",
+   //      		name: function(itemElem){
+   //      			return itemElem.name.toLowerCase();     
+   //      		}
+   //      	},
    //    		getFilterData:{
    //    			isEven: function(itemElem){
    //    				return itemElem.id % 2 === 0;
@@ -43,19 +43,23 @@ var vm = new Vue({
 		replace: function(){
 			this.list=[{name:'Edgard', id: count++}, {name:'James', id:count++}]
 		},
-		sort : function(key){
-			this.isotopeSort(key);
-			this.sortOption=key;
+		remove: function(){
+			if (this.list.length)
+				this.list.splice(0, 1)
 		},
-		filter : function(key){
-			if (this.filterOption==key)
-				key=null;
-			this.isotopeFilter(key);
-			this.filterOption=key;
-		},
-		shuttle : function(){
-			this.isotopeShuttle();
-			this.sortOption=null;
-		}	
+		// sort : function(key){
+		// 	this.isotopeSort(key);
+		// 	this.sortOption=key;
+		// },
+		// filter : function(key){
+		// 	if (this.filterOption==key)
+		// 		key=null;
+		// 	this.isotopeFilter(key);
+		// 	this.filterOption=key;
+		// },
+		// shuttle : function(){
+		// 	this.isotopeShuttle();
+		// 	this.sortOption=null;
+		// }	
 	}
 });

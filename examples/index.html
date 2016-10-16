@@ -17,7 +17,7 @@
         
         <div>
             <isotope id="root_isotope" class="isoDefault" :options='option' :list="list">
-                <div v-for="element in list"  @click="selected=element">
+                <div v-for="element in list" :key="element.id"  @click="selected=element">
                 {{element.name}}
                 <br>
                 {{element.id}}
@@ -28,8 +28,9 @@
         <div id="change">
             <button @click="add">Add</button>
             <button @click="replace">Replace</button>
+            <button @click="remove">Remove</button>
         </div>
-        <div id="filter">
+        <!-- <div id="filter">
             <div>
                 <input type="text" v-model="filterText"  placeholder="no filter"> 
                 <button :class="[filterOption==='filterByText' ? 'is-checked' : '']" @click="filter('filterByText')">Filter</button>   
@@ -42,7 +43,7 @@
             <button :class="[sortOption==='name' ? 'is-checked' : '']" @click="sort('name')">Sort by name</button>
             <button :class="[sortOption==='id' ? 'is-checked' : '']" @click="sort('id')">Sort by id</button> 
             <button @click="shuttle">Shuttle</button>        
-        </div>
+        </div> -->
         <div>
             <div v-if="selected" class="item">
                 <input type="text" name="" v-model="selected.name">

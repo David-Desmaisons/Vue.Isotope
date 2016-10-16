@@ -38,36 +38,41 @@
       props,
 
       render (h) {
-        const slots = this.$slots.default
+        const slots = this.$slots.default || []
         slots.forEach( elt => addClass(elt, this.itemselector))
-        return h('div', null, this.$slots.default)
+        return h('div', null, slots)
       },
 
       mounted () {
         const options = _.merge(this.options, {itemSelector: "." + this.itemselector}) 
+
+        _.forOwn(options.getSortData, (value, key) => {
+          if (_.isString(value))
+            options.getSortData[key] = (itemElement) => {return itemElement[value];};
+        });
+
         var update = (object) => {
           _.forOwn(object, (value, key) => {
             object[key] = (itemElement) => { return value.call(this, getItemVm(itemElement));};
           });
         };
-        update(options.getSortData);
-       
+        update(options.getSortData);      
 
         this.$nextTick( () => {
-          const iso = new Isotope(this.$el, options)  
+          const iso = new Isotope(this.$el, options)
           
           iso._requestUpdate= () => {
               if (iso._willUpdate)
-                return;
+                return
 
-              iso._willUpdate = true;
+              iso._willUpdate = true
               this.$nextTick(() => {
-                iso.arrange();
-                iso._willUpdate=false;
+                iso.arrange()
+                iso._willUpdate=false
               });
             };  
-          this.iso = iso   
-          this.link(true)   
+          this.iso = iso
+          this.link(true)
         })
       },
 
@@ -75,25 +80,35 @@
         this.iso.destroy()
       },
 
+      beforeUpdate () {
+        this._oldChidren = Array.prototype.slice.call(this.$el.children)
+      },
+
       updated () {
+        const newChildren = Array.prototype.slice.call(this.$el.children)
+        const added = _.difference(newChildren, this._oldChidren)
+        const removed = _.difference(this._oldChidren, newChildren)
+
+        if ((!removed.length) && (!added.length))
+          return;
+
+        // this.$nextTick(function(){                   
+        this.iso.remove(removed)
+        this.iso.insert(added)
+        this.iso._requestUpdate()
+        // });    
         this.link(false)
       },
 
       methods: {
-        link (first) {
-          //first || this.iso._requestUpdate()
-        },
-
-        immediateLink (first) {
+         link (first) {
+          if (!this.$slots.default)
+            return
           this.$slots.default.forEach( 
             (slot, index) => {
               const elmt = slot.elm
-              if (elmt){
-                if (!this.first && !elmt.__underlying_element){
-                  this.iso.insert(elmt)
-                }
-                elmt.__underlying_element= { vm : this.list[index], index }
-              }             
+              if (elmt)
+                elmt.__underlying_element= { vm : this.list[index], index }     
             })
         }
       }
