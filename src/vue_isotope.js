@@ -6,8 +6,8 @@
       node.data.staticClass = initValue + classValue
     }
 
-    function getItemVm(element){
-      return null
+    function getItemVm(elmt){
+      return elmt.__underlying_element
     }
 
     function getItemHTLM(element,id){
@@ -22,7 +22,8 @@
           masonry: {
             gutter: 10
           }
-        }
+        },
+        sort: String
       },
       itemselector: {
         type: String,
@@ -53,12 +54,13 @@
 
         var update = (object) => {
           _.forOwn(object, (value, key) => {
-            object[key] = (itemElement) => { return value.call(this, getItemVm(itemElement));};
+            object[key] = (itemElement) => { const res =  getItemVm(itemElement); return value.call(this, res.vm, res,index);};
           });
         };
-        update(options.getSortData);      
+        update(options.getSortData);    
 
         this.$nextTick( () => {
+          this.link(true)
           const iso = new Isotope(this.$el, options)
           
           iso._requestUpdate= () => {
@@ -71,8 +73,7 @@
                 iso._willUpdate=false
               });
             };  
-          this.iso = iso
-          this.link(true)
+          this.iso = iso     
         })
       },
 
@@ -88,20 +89,18 @@
         const newChildren = Array.prototype.slice.call(this.$el.children)
         const added = _.difference(newChildren, this._oldChidren)
         const removed = _.difference(this._oldChidren, newChildren)
+        this.link(false)
 
         if ((!removed.length) && (!added.length))
           return;
-
-        // this.$nextTick(function(){                   
+                 
         this.iso.remove(removed)
         this.iso.insert(added)
-        this.iso._requestUpdate()
-        // });    
-        this.link(false)
+        this.iso._requestUpdate()      
       },
 
       methods: {
-         link (first) {
+        link (first) {
           if (!this.$slots.default)
             return
           this.$slots.default.forEach( 
@@ -110,6 +109,10 @@
               if (elmt)
                 elmt.__underlying_element= { vm : this.list[index], index }     
             })
+        },
+
+        sort (name) {
+          this.iso.arrange({sortBy  :name})
         }
       }
     };

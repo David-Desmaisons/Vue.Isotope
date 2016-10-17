@@ -17,12 +17,12 @@ var vm = new Vue({
           	masonry: {
             	gutter: 10
           	},
-			// getSortData: {
-   //      		id: "id",
-   //      		name: function(itemElem){
-   //      			return itemElem.name.toLowerCase();     
-   //      		}
-   //      	},
+			getSortData: {
+        		id: "id",
+        		name: function(itemElem){
+        			return itemElem.name.toLowerCase();     
+        		}
+        	},
    //    		getFilterData:{
    //    			isEven: function(itemElem){
    //    				return itemElem.id % 2 === 0;
