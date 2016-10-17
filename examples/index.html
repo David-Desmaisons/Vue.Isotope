@@ -40,10 +40,9 @@
             <button  @click="filter()">Unfilter</button>
         </div> -->
         <div id="sort">  
-            <button :class="[sortOption==='name' ? 'is-checked' : '']" @click="$refs['isotope'].sort('name')">Sort by name</button>
-            <button :class="[sortOption==='id' ? 'is-checked' : '']" @click="$refs['isotope'].sort('id')">Sort by id</button> 
-           <!--  <button @click="shuttle">Shuttle</button>         -->
-        </div>
+            <button :class="[sortOption==='name' ? 'is-checked' : '']" @click="$refs.isotope.sort('name')">Sort by name</button>
+            <button :class="[sortOption==='id' ? 'is-checked' : '']" @click="$refs.isotope.sort('id')">Sort by id</button> 
+            <button @click="$refs.isotope.shuffle()">Shuffle</button>
         <div>
             <div v-if="selected" class="item">
                 <input type="text" name="" v-model="selected.name">

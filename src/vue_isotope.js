@@ -54,7 +54,7 @@
 
         var update = (object) => {
           _.forOwn(object, (value, key) => {
-            object[key] = (itemElement) => { const res =  getItemVm(itemElement); return value.call(this, res.vm, res,index);};
+            object[key] = (itemElement) => { const res =  getItemVm(itemElement); return value.call(this, res.vm, res.index);};
           });
         };
         update(options.getSortData);    
@@ -113,6 +113,10 @@
 
         sort (name) {
           this.iso.arrange({sortBy  :name})
+        },
+
+        shuffle() {
+          this.iso.shuffle()
         }
       }
     };
