@@ -73,6 +73,8 @@
       beforedestroy () {
         this.iso.destroy()
         _.forEach(this._listeners, (unlisten) => { unlisten();} )
+        if (this._filterlistener)
+          this._filterlistener()
       },
 
       beforeUpdate () {
@@ -124,6 +126,8 @@
 
         filter (name) {
           const filter = this._isotopeOptions.getFilterData[name]
+          this._filterlistener = this.$watch( () => { return _.map(this.list, (el, index) => this.options.getFilterData[name](el, index) );}, 
+                                              () => { this.iso._requestUpdate();});
           this.arrange({filter})
           this.$emit("filter", name)
         },
