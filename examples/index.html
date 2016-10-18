@@ -16,7 +16,7 @@
         
         
         <div>
-            <isotope ref="isotope" id="root_isotope" class="isoDefault" :options='option' :list="list">
+            <isotope ref="cpt" id="root_isotope" class="isoDefault" :options='option' :list="list" @filter="filterOption=arguments[0]" @sort="sortOption=arguments[0]">
                 <div v-for="element in list" :key="element.id"  @click="selected=element">
                 {{element.name}}
                 <br>
@@ -30,19 +30,19 @@
             <button @click="replace">Replace</button>
             <button @click="remove">Remove</button>
         </div>
-      <!--   <div id="filter">
-            <div>
+        <div id="filter">
+           <!--  <div>
                 <input type="text" v-model="filterText"  placeholder="no filter"> 
-                <button :class="[filterOption==='filterByText' ? 'is-checked' : '']" @click="filter('filterByText')">Filter</button>   
-            </div>
-            <button :class="[filterOption==='isEven' ? 'is-checked' : '']" @click="filter('isEven')">Filter Even</button>
-            <button :class="[filterOption==='isOdd' ? 'is-checked' : '']" @click="filter('isOdd')">Filter Odd</button>
-            <button  @click="filter()">Unfilter</button>
-        </div> -->
+                <button :class="[filterOption==='filterByText' ? 'is-checked' : '']" @click="refs.cpt.filter('filterByText')">Filter</button>   
+            </div> -->
+            <button :class="[filterOption==='isEven' ? 'is-checked' : '']" @click="$refs.cpt.filter('isEven')">Filter Even</button>
+            <button :class="[filterOption==='isOdd' ? 'is-checked' : '']" @click="$refs.cpt.filter('isOdd')">Filter Odd</button>
+            <button  @click="$refs.cpt.unfilter()">Unfilter</button>
+        </div>
         <div id="sort">  
-            <button :class="[sortOption==='name' ? 'is-checked' : '']" @click="$refs.isotope.sort('name')">Sort by name</button>
-            <button :class="[sortOption==='id' ? 'is-checked' : '']" @click="$refs.isotope.sort('id')">Sort by id</button> 
-            <button @click="$refs.isotope.shuffle()">Shuffle</button>
+            <button :class="[sortOption==='name' ? 'is-checked' : '']" @click="$refs.cpt.sort('name')">Sort by name</button>
+            <button :class="[sortOption==='id' ? 'is-checked' : '']" @click="$refs.cpt.sort('id')">Sort by id</button> 
+            <button @click="$refs.cpt.shuffle()">Shuffle</button>
         <div>
             <div v-if="selected" class="item">
                 <input type="text" name="" v-model="selected.name">

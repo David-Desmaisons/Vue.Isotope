@@ -57,11 +57,13 @@
             object[key] = (itemElement) => { const res =  getItemVm(itemElement); return value.call(this, res.vm, res.index);};
           });
         };
-        update(options.getSortData);    
+        update(options.getSortData)
+        update(options.getFilterData);   
 
         this.$nextTick( () => {
           this.link(true)
           const iso = new Isotope(this.$el, options)
+          this.options = options
           
           iso._requestUpdate= () => {
               if (iso._willUpdate)
@@ -101,22 +103,39 @@
 
       methods: {
         link (first) {
-          if (!this.$slots.default)
-            return
-          this.$slots.default.forEach( 
+          const slots = this.$slots.default || []
+          slots.forEach( 
             (slot, index) => {
               const elmt = slot.elm
               if (elmt)
                 elmt.__underlying_element= { vm : this.list[index], index }     
-            })
+          })
         },
 
         sort (name) {
-          this.iso.arrange({sortBy  :name})
+          this.arrange({sortBy  :name})
+          this.$emit("sort", name)
+        },
+
+        filter (name) {
+          const filter = this.options.getFilterData[name]
+          this.arrange({filter})
+          this.$emit("filter", name)
+        },
+
+        unfilter () {
+          this.arrange({filter: () => {return true;} })
+          this.$emit("filter", null)
+        },
+
+        arrange (option){
+          this.iso.arrange(option)
         },
 
         shuffle() {
           this.iso.shuffle()
+          this.$emit("shuffle")
+          this.$emit("sort", null)
         }
       }
     };

@@ -23,17 +23,17 @@ var vm = new Vue({
         			return itemElem.name.toLowerCase();     
         		}
         	},
-   //    		getFilterData:{
-   //    			isEven: function(itemElem){
-   //    				return itemElem.id % 2 === 0;
-   //    			},
-   //    			isOdd: function(itemElem){
-   //    				return itemElem.id % 2 !== 0;
-   //    			},
-   //    			filterByText: function(itemElem){
-   //      			return itemElem.name.toLowerCase().includes(this.filterText.toLowerCase());
-   //      		}
-   //    		}
+      		getFilterData:{
+      			isEven: function(itemElem){
+      				return itemElem.id % 2 === 0;
+      			},
+      			isOdd: function(itemElem){
+      				return itemElem.id % 2 !== 0;
+      			},
+      			filterByText: function(itemElem){
+        			return itemElem.name.toLowerCase().includes(this.filterText.toLowerCase());
+        		}
+      		}
 		}
 	},
 	methods:{
@@ -46,20 +46,6 @@ var vm = new Vue({
 		remove: function(){
 			if (this.list.length)
 				this.list.splice(0, 1)
-		},
-		// sort : function(key){
-		// 	this.isotopeSort(key);
-		// 	this.sortOption=key;
-		// },
-		// filter : function(key){
-		// 	if (this.filterOption==key)
-		// 		key=null;
-		// 	this.isotopeFilter(key);
-		// 	this.filterOption=key;
-		// },
-		// shuttle : function(){
-		// 	this.isotopeShuttle();
-		// 	this.sortOption=null;
-		// }	
+		}
 	}
 });
