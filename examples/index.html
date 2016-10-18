@@ -16,7 +16,7 @@
         
         
         <div>
-            <isotope ref="cpt" id="root_isotope" class="isoDefault" :options='option' :list="list" @filter="filterOption=arguments[0]" @sort="sortOption=arguments[0]">
+            <isotope ref="cpt" id="root_isotope" class="isoDefault" :options='getOptions()' :list="list" @filter="filterOption=arguments[0]" @sort="sortOption=arguments[0]">
                 <div v-for="element in list" :key="element.id"  @click="selected=element">
                 {{element.name}}
                 <br>
@@ -31,10 +31,10 @@
             <button @click="remove">Remove</button>
         </div>
         <div id="filter">
-           <!--  <div>
+            <div>
                 <input type="text" v-model="filterText"  placeholder="no filter"> 
-                <button :class="[filterOption==='filterByText' ? 'is-checked' : '']" @click="refs.cpt.filter('filterByText')">Filter</button>   
-            </div> -->
+                <button :class="[filterOption==='filterByText' ? 'is-checked' : '']" @click="$refs.cpt.filter('filterByText')">Filter</button>   
+            </div>
             <button :class="[filterOption==='isEven' ? 'is-checked' : '']" @click="$refs.cpt.filter('isEven')">Filter Even</button>
             <button :class="[filterOption==='isOdd' ? 'is-checked' : '']" @click="$refs.cpt.filter('isOdd')">Filter Odd</button>
             <button  @click="$refs.cpt.unfilter()">Unfilter</button>

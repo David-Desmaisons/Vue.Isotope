@@ -10,10 +10,6 @@
       return elmt.__underlying_element
     }
 
-    function getItemHTLM(element,id){
-      return null
-    }
-
     const props = {
       options: {
         type: Object,
@@ -45,13 +41,7 @@
       },
 
       mounted () {
-        const options = _.merge(this.options, {itemSelector: "." + this.itemselector}) 
-
-        _.forOwn(options.getSortData, (value, key) => {
-          if (_.isString(value))
-            options.getSortData[key] = (itemElement) => {return itemElement[value];};
-        });
-
+        const options = _.merge({}, this.compiledOptions)
         var update = (object) => {
           _.forOwn(object, (value, key) => {
             object[key] = (itemElement) => { const res =  getItemVm(itemElement); return value.call(this, res.vm, res.index);};
@@ -61,10 +51,11 @@
         update(options.getFilterData);   
 
         this.$nextTick( () => {
+          this._isotopeOptions = options
           this.link(true)
+          this.listen()
           const iso = new Isotope(this.$el, options)
-          this.options = options
-          
+                  
           iso._requestUpdate= () => {
               if (iso._willUpdate)
                 return
@@ -81,6 +72,7 @@
 
       beforedestroy () {
         this.iso.destroy()
+        _.forEach(this._listeners, (unlisten) => { unlisten();} )
       },
 
       beforeUpdate () {
@@ -95,7 +87,9 @@
 
         if ((!removed.length) && (!added.length))
           return;
-                 
+
+        this.listen()
+         
         this.iso.remove(removed)
         this.iso.insert(added)
         this.iso._requestUpdate()      
@@ -112,13 +106,24 @@
           })
         },
 
+        listen () {
+          this._listeners = _(this.compiledOptions.getSortData).map((sort) => {
+            return _.map(this.list, (collectionElement, index) => {
+              return vm.$watch(() => {return sort(collectionElement);}, () => {
+                this.iso.updateSortData();
+                this.iso._requestUpdate();
+              });
+            });  
+          }).flatten().value();
+        },
+
         sort (name) {
           this.arrange({sortBy  :name})
           this.$emit("sort", name)
         },
 
         filter (name) {
-          const filter = this.options.getFilterData[name]
+          const filter = this._isotopeOptions.getFilterData[name]
           this.arrange({filter})
           this.$emit("filter", name)
         },
@@ -136,6 +141,19 @@
           this.iso.shuffle()
           this.$emit("shuffle")
           this.$emit("sort", null)
+        }
+      },
+
+      computed: {
+        compiledOptions () {
+          const options = _.merge({}, this.options, {itemSelector: "." + this.itemselector}) 
+
+          _.forOwn(options.getSortData, (value, key) => {
+            if (_.isString(value))
+              options.getSortData[key] = (itemElement) => {return itemElement[value];};
+          });
+
+          return options;
         }
       }
     };
