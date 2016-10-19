@@ -6,13 +6,12 @@
 [![Package Quality](http://npm.packagequality.com/shield/vueisotope.svg)](http://packagequality.com/#?package=vueisotope)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Vue.Isotope.svg)](https://github.com/David-Desmaisons/Vue.Isotope/blob/master/LICENSE)
 
-Vue directive for lists allowing [isotope](http://isotope.metafizzy.co/) layout filtering and sorting.
+Vue component (Vue.js 2.0) or directive (Vue.js 1.0) allowing [isotope layout](http://isotope.metafizzy.co/) including filtering and sorting.
 
 
 ##Motivation
 
-Create a directive that allows to use vue with isotope filter & sort magical layouts.
-The underlying 
+Integrate Vue with isotope filter & sort magical layouts. 
 
 ##Demo
 
@@ -34,10 +33,101 @@ https://jsfiddle.net/dede89/d117mj5u/
 ##Features
 
 * Full support of [Isotope](http://isotope.metafizzy.co/) options via options parameters
-* Reactive directive that dislpays change in case in case of property impacting sorting or filtering
+* Reactivity: component react in case in case of property impacting sorting or filtering
 * Provides filter and sort based on ViewModel information
 
 ##Usage
+###For Vue.js 2.0
+
+Use draggable component:
+
+``` html
+<isotope :options='getOptions()' :list="list" @filter="filterOption=arguments[0]" @sort="sortOption=arguments[0]">
+  <div v-for="element in list" :key="element.id">
+    {{element.name}}
+  </div>
+</isotope>
+```
+
+#### Props
+##### itemSelector
+Type: `String`<br>
+Required: `false`<br>
+Default: `"item"`<br>
+
+Class to be applied to the isotope elements. Similar as isotope itemSelector but without the starting "." This class will be applied automatically by the isotope component on the children elements.
+
+##### list
+Type: `Array`<br>
+Required: `true`<br>
+
+Array to be synchronized with drag-and-drop. Typically same array as refrenced by inner element v-for directive.<br>
+Note that draggabe component can be used with a list prop
+
+##### options
+Type: `Object`<br>
+Required: `true`
+* All value are similar as [isotope options](http://isotope.metafizzy.co/options.html) expect for:
+* Filter definition:
+  Implement filter by passing an option with a getFilterData object that exposes filter option. Vue.Isotope will call these 
+  functions with the element to filter as parameter and this set as the underlying vm.
+```javascript 
+  getFilterData:{
+    isEven: function(itemElem){
+      return itemElem.id % 2 === 0;
+    },
+    isOdd: function(itemElem){
+      return itemElem.id % 2 !== 0;
+    },
+    filterByText: function(itemElem){
+      return itemElem.name.toLowerCase().includes(this.filterText.toLowerCase());
+    }
+  }
+```      	
+  
+* Sort definition:
+  Implement sort by passing as option a getSortData object that exposes filter option. Vue.Isotope will call these 
+  functions with the element to filter as parameter and this set as the underlying vm. If a string is passed instead of a function, sorting
+  will use the corresponding property.
+```javascript
+  getSortData: {
+    id: "id",
+    name: function(itemElem){
+      return itemElem.name.toLowerCase();     
+    }
+  }
+```
+
+#### Events
+`filter`, `sort`, `layout`<br>
+Send when filter, sort and layout respectivelly are called on the isotope element with the corresponding `String` parameter.
+
+`shuffle`<br>
+Send when shuffle is called on the isotope element.
+
+`arrange`<br>
+Send when arrange is called on the isotope element with the corresponding `Object` parameter.
+
+#### Methods
+`sort (name)`<br>
+Sort the isotope component with the corresponding `String` parameter.
+
+`filter (name)`<br>
+Sort the isotope component with the corresponding `String` parameter.
+
+`layout (name)`<br>
+Change the layout of the isotope component with the corresponding `String` parameter.
+
+`arrange (option)`<br>
+Call arrange on the isotope component with the corresponding `Object` parameter.
+
+`unfilter ()`<br>
+Reset filter on the isotope component.
+
+`shuffle ()`<br>
+Shuffle the isotope component.
+
+###For Vue.js 1.0
 
 Use it exactly as v-for directive, passing optional parameters using 'options' parameter.
 The isotope elements should be wrapped inside a div root element
@@ -50,8 +140,8 @@ The isotope elements should be wrapped inside a div root element
   </div>
    ```
 
-##API:
-###Options
+####API:
+#####Options
 * All value are similar as isotope options expect for:
 * id value: the unique name of the isotope component
 * Filter definition:
@@ -120,8 +210,19 @@ The isotope elements should be wrapped inside a div root element
 
   ``` js
   // ES6
+  //For Vue.js 2.0
+  import Vueisotope from 'vueisotope'
+  ...
+  export default {
+        components: {
+            vueisotope,
+            ...
+        }
+        ...
+  
+  //For Vue.js 1.0 only
   import Vue from 'vue'
-  import Vueisotope from 'Vueisotope'
+  import Vueisotope from 'vueisotope'
   Vue.use(Vueisotope)
 
   // ES5
