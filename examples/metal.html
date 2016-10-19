@@ -12,41 +12,42 @@
     <body>
      
      <div id="main">
-        <h1>Vue isotope For</h1>
+        <h1>Vue isotope</h1>
 
         <h2>Filter</h2>
         <div class="button-group">  
-            <button v-for="(key, val) in option.getFilterData" class="button" :class="[key===filterOption? 'is-checked' : '']"  @click="filter(key)">{{key}}
+            <button v-for="(val, key) in option.getFilterData" class="button" :class="[key===filterOption? 'is-checked' : '']"  @click="$refs.isotope.filter(key)">{{key}}
             </button>
         </div>
 
         <h2>Sort</h2>
         <div class="button-group">
-          <button class="button" :class="[sortOption==='original-order'? 'is-checked' : '']"  @click="sort('original-order')">original order</button> 
-          <button v-for="(key, val) in option.getSortData" class="button" :class="[key===sortOption? 'is-checked' : '']"  @click="sort(key)">{{key}}</button>
+          <button class="button" :class="[sortOption==='original-order'? 'is-checked' : '']"  @click="$refs.isotope.sort('original-order')">original order</button> 
+          <button v-for="(val, key) in option.getSortData" class="button" :class="[key===sortOption? 'is-checked' : '']"  @click="$refs.isotope.sort(key)">{{key}}</button>
         </div>
 
 
         <h2>Layout</h2>
         <div>
-            <button v-for="layout in layouts" :class="[layout===currentLayout? 'is-checked' : '']" class="button" @click="changeLayout(layout)">
+            <button v-for="layout in layouts" :class="[layout===currentLayout? 'is-checked' : '']" class="button" @click="$refs.isotope.layout(layout)">
               {{layout}}
             </button>
         </div>
        
-        <div id="root_isotope1">
-            <div v-isotope-for="element in list" :options='option' v-bind:class='[element.category]'>
+        <isotope ref="isotope" id="root_isotope1" :list="list" :item-selector="'element-item'" :options='option' @filter="filterOption=arguments[0]" @sort="sortOption=arguments[0]" @layout="currentLayout=arguments[0]">
+            <div  v-for="element in list" :class='[element.category]'>
                 <h3 class="name">{{element.name}}</h3>
                 <p class="symbol">{{element.symbol}}</p>
                 <p class="number">{{element.number}}</p>
                 <p class="weight">{{element.weight}}</p>
             </div>
-        </div>
+        </isotope>
 
         <a href="index.html">Simple example</a>
         <a href="complex.html">More complex example</a>
         <a href="component.html">Component example</a>
 
+    </div>  
         <script type="text/javascript" src="..\libs\vue\dist\vue.js"></script>
         <script type="text/javascript" src="..\libs\lodash\lodash.js"></script>
         <script type="text/javascript" src="..\libs\isotope\isotope.pkgd.js"></script>
@@ -58,7 +59,5 @@
         <script type="text/javascript" src="..\libs\isotope-packery\packery-mode.pkgd.js"></script>
         <script type="text/javascript" src="src\vue_isotope.js"></script>
         <script type="text/javascript" src="script\metal.js"></script>
-
-    </div>
     </body>
 </html>

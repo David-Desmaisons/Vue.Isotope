@@ -57,20 +57,6 @@ var vm = new Vue({
 		},
 		replace: function(){
 			this.list=[{name:'Edgard', id: count++}, {name:'James', id:count++}]
-		},
-    // sort : function(key, id){
-    //   this.isotopeSort(key, id);
-    //   this.sortOption[id]=key;
-    // },
-    // filter : function(key, id){
-    //   if (this.filterOption[id]==key)
-    //     key=null;
-    //   this.isotopeFilter(key, id);
-    //   this.filterOption[id]=key;
-    // },
-    // shuttle : function(id){
-    //   this.isotopeShuttle(id);
-    //   this.sortOption[id]=null;
-    // } 
+		}
 	}
 });

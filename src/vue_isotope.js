@@ -21,7 +21,7 @@
         },
         sort: String
       },
-      itemselector: {
+      itemSelector: {
         type: String,
         default: "item"
       },
@@ -36,7 +36,7 @@
 
       render (h) {
         const slots = this.$slots.default || []
-        slots.forEach( elt => addClass(elt, this.itemselector))
+        slots.forEach( elt => addClass(elt, this.itemSelector))
         return h('div', null, slots)
       },
 
@@ -137,6 +137,11 @@
           this.$emit("filter", null)
         },
 
+        layout (name) {
+          this.arrange({layoutMode: name})
+          this.$emit("layout", name)
+        },
+
         arrange (option){
           this.iso.arrange(option)
         },
@@ -150,7 +155,7 @@
 
       computed: {
         compiledOptions () {
-          const options = _.merge({}, this.options, {itemSelector: "." + this.itemselector}) 
+          const options = _.merge({}, this.options, {itemSelector: "." + this.itemSelector}) 
 
           _.forOwn(options.getSortData, (value, key) => {
             if (_.isString(value))

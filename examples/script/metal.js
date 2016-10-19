@@ -105,7 +105,6 @@ var vm = new Vue({
 		sortOption: "original-order",
 		filterOption: "show all",
 		option:{
-			itemSelector : ".element-item",
 			getFilterData: {
 			    "show all": function(){
 			    	return true;
@@ -154,20 +153,6 @@ var vm = new Vue({
 			packery: {
   				gutter: 10
 			}
-		}
-	},
-	methods:{
-		sort : function(key){
-			this.isotopeSort(key);
-			this.sortOption=key;
-		},
-		filter : function(key){
-			this.isotopeFilter(key);
-			this.filterOption=key;
-		},
-		changeLayout: function(key) {
-		  this.currentLayout = key;
-		  this.isotopeArrange({ layoutMode:key});	  
 		}
 	}
 });
