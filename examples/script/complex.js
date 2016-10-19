@@ -36,19 +36,19 @@ var vm = new Vue({
 		option2:{
 			id : "second",
 			getSortData: {
-        		id: "id",
-        		name: function(itemElem){
-        			return itemElem.name.toLowerCase();
-        		}
-      		},
-      		getFilterData:{
-      			isEven: function(itemElem){
-      				return itemElem.id % 2 === 0;
-      			},
-      			isOdd: function(itemElem){
-      				return itemElem.id % 2 !== 0;
-      			}
-      		}
+        	id: "id",
+        	name: function(itemElem){
+        		return itemElem.name.toLowerCase();
+        	}
+      },
+      getFilterData:{
+      	isEven: function(itemElem){
+      		return itemElem.id % 2 === 0;
+      	},
+      	isOdd: function(itemElem){
+      		return itemElem.id % 2 !== 0;
+      	}
+      }
 		}
 	},
 	methods:{
@@ -58,19 +58,19 @@ var vm = new Vue({
 		replace: function(){
 			this.list=[{name:'Edgard', id: count++}, {name:'James', id:count++}]
 		},
-    sort : function(key, id){
-      this.isotopeSort(key, id);
-      this.sortOption[id]=key;
-    },
-    filter : function(key, id){
-      if (this.filterOption[id]==key)
-        key=null;
-      this.isotopeFilter(key, id);
-      this.filterOption[id]=key;
-    },
-    shuttle : function(id){
-      this.isotopeShuttle(id);
-      this.sortOption[id]=null;
-    } 
+    // sort : function(key, id){
+    //   this.isotopeSort(key, id);
+    //   this.sortOption[id]=key;
+    // },
+    // filter : function(key, id){
+    //   if (this.filterOption[id]==key)
+    //     key=null;
+    //   this.isotopeFilter(key, id);
+    //   this.filterOption[id]=key;
+    // },
+    // shuttle : function(id){
+    //   this.isotopeShuttle(id);
+    //   this.sortOption[id]=null;
+    // } 
 	}
 });

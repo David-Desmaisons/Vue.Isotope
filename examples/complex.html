@@ -16,35 +16,35 @@
        
         <div >
             <div>
-                <div id="root_isotope1" class="isoDefault" >
-                    <div v-isotope-for="element in list" :options='option1' @click="selected=element" >
+                <isotope  ref="cpt1" id="root_isotope1" class="isoDefault" :options='option1' :list="list" @filter="filterOption.first=arguments[0]" @sort="sortOption.first=arguments[0]">
+                    <div v-for="element in list" @click="selected=element" >
                     {{element.name}}
                     <br>
                     {{element.id}}
                     </div>
-                 </div>
-                 <button :class="[sortOption.first==='name' ? 'is-checked' : '']" @click="sort('name', 'first')">Sort by name</button>
-                 <button :class="[sortOption.first==='id' ? 'is-checked' : '']"  @click="sort('id', 'first')">Sort by id</button> 
-                 <button :class="[filterOption.first==='isEven' ? 'is-checked' : '']" @click="filter('isEven', 'first')">Filter Even</button>
-                 <button :class="[filterOption.first==='isOdd' ? 'is-checked' : '']"  @click="filter('isOdd', 'first')">Filter Odd</button>
-                 <button  @click="filter(null, 'first')">Unfilter</button>
-                 <button @click="shuttle('first')">Shuttle</button>
+                 </isotope>
+                 <button :class="[sortOption.first==='name' ? 'is-checked' : '']" @click="$refs.cpt1.sort('name')">Sort by name</button>
+                 <button :class="[sortOption.first==='id' ? 'is-checked' : '']"  @click="$refs.cpt1.sort('id')">Sort by id</button> 
+                 <button :class="[filterOption.first==='isEven' ? 'is-checked' : '']" @click="$refs.cpt1.filter('isEven')">Filter Even</button>
+                 <button :class="[filterOption.first==='isOdd' ? 'is-checked' : '']"  @click="$refs.cpt1.filter('isOdd')">Filter Odd</button>
+                 <button  @click="$refs.cpt1.unfilter()">Unfilter</button>
+                 <button @click="$refs.cpt1.shuffle()">Shuffle</button>
             </div>
 
              <div>
-                <div id="root_isotope2" class="isoDefault">
-                    <div v-isotope-for="element in list" :options='option2' @click="selected=element" >
+                <isotope  ref="cpt2" id="root_isotope2" class="isoDefault" :options='option2' :list="list" @filter="filterOption.second=arguments[0]" @sort="sortOption.second=arguments[0]">
+                    <div v-for="element in list" @click="selected=element" >
                     {{element.name}}
                     <br>
                     {{element.id}}
                     </div>
-                 </div>
-                 <button :class="[sortOption.second==='name' ? 'is-checked' : '']" @click="sort('name', 'second')">Sort by name</button>
-                 <button :class="[sortOption.second==='id' ? 'is-checked' : '']" @click="sort('id', 'second')">Sort by id</button> 
-                 <button :class="[filterOption.second==='isEven' ? 'is-checked' : '']"  @click="filter('isEven', 'second')">Filter Even</button>
-                 <button :class="[filterOption.second==='isOdd' ? 'is-checked' : '']" @click="filter('isOdd', 'second')">Filter Odd</button>
-                 <button @click="filter(null, 'second')">Unfilter</button>
-                 <button @click="shuttle('second')">Shuttle</button>
+                 </isotope>
+                 <button :class="[sortOption.second==='name' ? 'is-checked' : '']" @click="$refs.cpt2.sort('name')">Sort by name</button>
+                 <button :class="[sortOption.second==='id' ? 'is-checked' : '']" @click="$refs.cpt2.sort('id')">Sort by id</button> 
+                 <button :class="[filterOption.second==='isEven' ? 'is-checked' : '']"  @click="$refs.cpt2.filter('isEven')">Filter Even</button>
+                 <button :class="[filterOption.second==='isOdd' ? 'is-checked' : '']" @click="$refs.cpt2.filter('isOdd')">Filter Odd</button>
+                 <button @click="$refs.cpt2.unfilter()">Unfilter</button>
+                 <button @click="$refs.cpt2.shuffle()">Shuffle</button>
             </div>
          </div>
 
@@ -65,12 +65,14 @@
         <a href="metal.html">Isotope example</a>
         <a href="component.html">Component example</a>
 
+      
+
+    </div>  
+
         <script type="text/javascript" src="..\libs\vue\dist\vue.js"></script>
         <script type="text/javascript" src="..\libs\lodash\lodash.js"></script>
         <script type="text/javascript" src="..\libs\isotope\isotope.pkgd.js"></script>
         <script type="text/javascript" src="src\vue_isotope.js"></script>
         <script type="text/javascript" src="script\complex.js"></script>
-
-    </div>
     </body>
 </html>
