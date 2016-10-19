@@ -144,6 +144,7 @@
 
         arrange (option){
           this.iso.arrange(option)
+          this.$emit("arrange", option)
         },
 
         shuffle() {

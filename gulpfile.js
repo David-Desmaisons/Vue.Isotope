@@ -20,10 +20,19 @@ gulp.task('scripts', function () {
         .pipe($.size());
 });
 
+gulp.task('compile-to-es5', function () {
+    return gulp.src('src/**/*.js')
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(gulp.dest('dist'))
+        .pipe($.size());
+});
+
 
 var rename = require('gulp-rename');
 
-gulp.task('js', ['scripts'], function () {
+gulp.task('js', ['scripts', 'compile-to-es5'], function () {
     var jsFilter = $.filter('**/*.js', {restore: true});
 
     return gulp.src('src/**/*.js')
