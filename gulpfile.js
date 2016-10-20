@@ -143,8 +143,8 @@ gulp.task('watch', ['connect', 'serve'], function () {
         gulp.start('test');
     });
 
-    gulp.watch('test/spec/*.js').on('change', function(event){
-        changedSpec = event.path
-        gulp.start('test')
-    });
+    // gulp.watch('test/spec/*.js').on('change', function(event){
+    //     changedSpec = event.path
+    //     gulp.start('test')
+    // });
 });

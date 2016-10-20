@@ -111,7 +111,7 @@
         listen () {
           this._listeners = _(this.compiledOptions.getSortData).map((sort) => {
             return _.map(this.list, (collectionElement, index) => {
-              return vm.$watch(() => {return sort(collectionElement);}, () => {
+              return this.$watch(() => {return sort(collectionElement);}, () => {
                 this.iso.updateSortData();
                 this.iso._requestUpdate();
               });

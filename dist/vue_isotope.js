@@ -1,4 +1,5 @@
 "use strict";
+
 (function () {
   function buildVueIsotope(_, Isotope) {
 
@@ -117,7 +118,7 @@
 
           this._listeners = _(this.compiledOptions.getSortData).map(function (sort) {
             return _.map(_this4.list, function (collectionElement, index) {
-              return vm.$watch(function () {
+              return _this4.$watch(function () {
                 return sort(collectionElement);
               }, function () {
                 _this4.iso.updateSortData();
@@ -184,12 +185,15 @@
   }
 
   if (typeof exports == "object") {
-    var _ = require("lodash"), Isotope = require("isotope-layout");
+    var _ = require("lodash"),
+        Isotope = require("isotope-layout");
     module.exports = buildVueIsotope(_, Isotope);
   } else if (typeof define == "function" && define.amd) {
-    define(['lodash','Isotope'], function(_, Isotope){ return buildVueIsotope(_, Isotope); });
-  } else if ((window.Vue) && (window._) && (window.Isotope)) {
+    define(['lodash', 'Isotope'], function (_, Isotope) {
+      return buildVueIsotope(_, Isotope);
+    });
+  } else if (window.Vue && window._ && window.Isotope) {
     var isotope = buildVueIsotope(window._, window.Isotope);
-    Vue.component('isotope', isotope)
+    Vue.component('isotope', isotope);
   }
 })();
