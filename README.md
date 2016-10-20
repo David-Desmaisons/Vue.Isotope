@@ -17,19 +17,27 @@ Integrate Vue with isotope filter & sort magical layouts.
 
 ![demo gif](https://raw.githubusercontent.com/David-Desmaisons/Vue.Isotope/master/example1.gif)
 
-Basic:
+####Vue.js 2.0
+Basic:<br>
+https://jsfiddle.net/dede89/rz7q746y/<br>
 
-https://jsfiddle.net/dede89/y6c8rpyu/
+Complete:<br>
+https://jsfiddle.net/dede89/rz7q746y/<br>
 
-Complete:
+####Vue.js 1.0
+Basic:<br>
+https://jsfiddle.net/dede89/zc1x0vdd/<br>
 
-https://jsfiddle.net/dede89/g6c0vzm2/
+Complete:<br>
+https://jsfiddle.net/dede89/g6c0vzm2/<br>
 
 Isotope elements:
 
 ![demo gif](https://raw.githubusercontent.com/David-Desmaisons/Vue.Isotope/master/example2.gif)
-Vue.js 2.0 https://jsfiddle.net/dede89/1a32bzm5/<br>
-Vue.js 1.0 https://jsfiddle.net/dede89/d117mj5u/
+####Vue.js 2.0
+https://jsfiddle.net/dede89/1a32bzm5/<br>
+####Vue.js 1.0
+https://jsfiddle.net/dede89/d117mj5u/
 
 
 ##Features
