@@ -25,10 +25,12 @@ Complete:
 
 https://jsfiddle.net/dede89/g6c0vzm2/
 
-Isotope elements demo with vue template:
+Isotope elements:
 
 ![demo gif](https://raw.githubusercontent.com/David-Desmaisons/Vue.Isotope/master/example2.gif)
-https://jsfiddle.net/dede89/d117mj5u/
+Vue.js 2.0 https://jsfiddle.net/dede89/1a32bzm5/<br>
+Vue.js 1.0 https://jsfiddle.net/dede89/d117mj5u/
+
 
 ##Features
 
