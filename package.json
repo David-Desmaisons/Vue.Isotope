@@ -10,7 +10,8 @@
   "keywords": [
     "vue",
     "vuejs",
-    "isotope"
+    "isotope",
+    "web-components"
   ],
   "directories": {
     "example": "examples",
