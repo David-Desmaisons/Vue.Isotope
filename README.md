@@ -63,7 +63,6 @@ Type: `Array`<br>
 Required: `true`<br>
 
 Array to be synchronized with drag-and-drop. Typically same array as refrenced by inner element v-for directive.<br>
-Note that draggabe component can be used with a list prop
 
 ##### options
 Type: `Object`<br>
