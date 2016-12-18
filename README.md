@@ -62,7 +62,7 @@ Class to be applied to the isotope elements. Similar as isotope itemSelector but
 Type: `Array`<br>
 Required: `true`<br>
 
-Array to be synchronized with drag-and-drop. Typically same array as refrenced by inner element v-for directive.<br>
+Array to be synchronized with drag-and-drop. Typically same array as referenced by inner element v-for directive.<br>
 
 ##### options
 Type: `Object`<br>
