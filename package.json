@@ -1,6 +1,6 @@
 {
   "name": "vueisotope",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "vue isotope for directive",
   "main": "dist/vue_isotope.min.js",
   "files": [
@@ -11,7 +11,9 @@
     "vue",
     "vuejs",
     "isotope",
-    "web-components"
+    "web-components",
+    "web-component",
+    "layout"
   ],
   "directories": {
     "example": "examples",

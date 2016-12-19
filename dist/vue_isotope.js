@@ -77,7 +77,7 @@
           _this2.iso = iso;
         });
       },
-      beforedestroy: function beforedestroy() {
+      beforeDestroy: function beforeDestroy() {
         this.iso.destroy();
         _.forEach(this._listeners, function (unlisten) {
           unlisten();
