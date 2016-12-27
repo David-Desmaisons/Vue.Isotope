@@ -211,11 +211,11 @@ The isotope elements should be wrapped inside a div root element
   ``` js
   // ES6
   //For Vue.js 2.0
-  import Vueisotope from 'vueisotope'
+  import isotope from 'vueisotope'
   ...
   export default {
         components: {
-            vueisotope,
+            isotope,
             ...
         }
         ...
