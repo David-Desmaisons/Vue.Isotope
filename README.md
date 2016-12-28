@@ -4,6 +4,7 @@
 [![Npm download](https://img.shields.io/npm/dt/vueisotope.svg?maxAge=2592000)](https://www.npmjs.com/package/vueisotope)
 [![Npm version](https://img.shields.io/npm/v/vueisotope.svg?maxAge=2592000)](https://www.npmjs.com/package/vueisotope)
 [![Package Quality](http://npm.packagequality.com/shield/vueisotope.svg)](http://packagequality.com/#?package=vueisotope)
+[![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Vue.Isotope.svg)](https://github.com/David-Desmaisons/Vue.Isotope/blob/master/LICENSE)
 
 Vue component (Vue.js 2.0) or directive (Vue.js 1.0) allowing [isotope layout](http://isotope.metafizzy.co/) including filtering and sorting.
