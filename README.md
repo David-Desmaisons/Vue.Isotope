@@ -125,6 +125,10 @@ Reset filter on the isotope component.
 `shuffle ()`<br>
 Shuffle the isotope component.
 
+### Working with images 
+
+Unloaded images can throw off Isotope layouts and cause item elements to overlap. Use [vue.imagesLoaded](https://github.com/David-Desmaisons/Vue.ImagesLoaded#isotope-example) to solve this problem.
+
 ### For Vue.js 1.0
 
 [See here](documentation/Doc.vue.1.md)
