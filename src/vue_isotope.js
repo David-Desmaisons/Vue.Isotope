@@ -138,8 +138,12 @@
         },
 
         layout (name) {
-          this.arrange({layoutMode: name})
-          this.$emit("layout", name)
+          let layout = name
+          if (_.isString(name)) {
+            layout = {layoutMode: name}
+          }
+          this.arrange(layout)
+          this.$emit("layout", layout)
         },
 
         arrange (option){

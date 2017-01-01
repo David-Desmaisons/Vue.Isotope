@@ -34,8 +34,8 @@
             </button>
         </div>
        
-        <isotope ref="isotope" id="root_isotope1" :list="list" :item-selector="'element-item'" :options='option' @filter="filterOption=arguments[0]" @sort="sortOption=arguments[0]" @layout="currentLayout=arguments[0]">
-            <div  v-for="element in list" :class='[element.category]'>
+        <isotope ref="isotope" id="root_isotope1" :list="list" :item-selector="'element-item'" :options='option' @filter="filterOption=arguments[0]" @sort="sortOption=arguments[0]" @layout="currentLayout=arguments[0].layoutMode">
+            <div v-for="element in list" :class='[element.category]'>
                 <h3 class="name">{{element.name}}</h3>
                 <p class="symbol">{{element.symbol}}</p>
                 <p class="number">{{element.number}}</p>
