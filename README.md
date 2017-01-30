@@ -113,8 +113,8 @@ Sort the isotope component with the corresponding `String` parameter.
 `filter (name)`<br>
 Sort the isotope component with the corresponding `String` parameter.
 
-`layout (name)`<br>
-Change the layout of the isotope component with the corresponding `String` parameter.
+`layout (option)`<br>
+Change the layout of the isotope component using the option as layout name if option is `String` or with option object if option is `Object`.
 
 `arrange (option)`<br>
 Call arrange on the isotope component with the corresponding `Object` parameter.
