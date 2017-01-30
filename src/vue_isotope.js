@@ -160,7 +160,7 @@
 
       computed: {
         compiledOptions () {
-          const options = _.merge({}, this.options, {itemSelector: "." + this.itemSelector}) 
+          const options = _.merge({}, this.options, {itemSelector: "." + this.itemSelector, isJQueryFiltering: false}) 
 
           _.forOwn(options.getSortData, (value, key) => {
             if (_.isString(value))

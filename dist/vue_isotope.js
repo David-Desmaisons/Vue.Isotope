@@ -152,8 +152,12 @@
           this.$emit("filter", null);
         },
         layout: function layout(name) {
-          this.arrange({ layoutMode: name });
-          this.$emit("layout", name);
+          var layout = name;
+          if (_.isString(name)) {
+            layout = { layoutMode: name };
+          }
+          this.arrange(layout);
+          this.$emit("layout", layout);
         },
         arrange: function arrange(option) {
           this.iso.arrange(option);
@@ -168,7 +172,7 @@
 
       computed: {
         compiledOptions: function compiledOptions() {
-          var options = _.merge({}, this.options, { itemSelector: "." + this.itemSelector });
+          var options = _.merge({}, this.options, { itemSelector: "." + this.itemSelector, isJQueryFiltering: false });
 
           _.forOwn(options.getSortData, function (value, key) {
             if (_.isString(value)) options.getSortData[key] = function (itemElement) {
