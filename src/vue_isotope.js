@@ -48,14 +48,14 @@
           });
         };
         update(options.getSortData)
-        update(options.getFilterData);   
+        update(options.getFilterData);
 
         this.$nextTick( () => {
           this._isotopeOptions = options
           this.link(true)
           this.listen()
           const iso = new Isotope(this.$el, options)
-                  
+
           iso._requestUpdate= () => {
               if (iso._willUpdate)
                 return
@@ -65,8 +65,8 @@
                 iso.arrange()
                 iso._willUpdate=false
               });
-            };  
-          this.iso = iso     
+            };
+          this.iso = iso
         })
       },
 
@@ -91,20 +91,22 @@
           return;
 
         this.listen()
-         
-        this.iso.remove(removed)
-        this.iso.insert(added)
-        this.iso._requestUpdate()      
+
+        if(this.iso){
+          this.iso.remove(removed)
+          this.iso.insert(added)
+          this.iso._requestUpdate()
+        }
       },
 
       methods: {
         link (first) {
           const slots = this.$slots.default || []
-          slots.forEach( 
+          slots.forEach(
             (slot, index) => {
               const elmt = slot.elm
               if (elmt)
-                elmt.__underlying_element= { vm : this.list[index], index }     
+                elmt.__underlying_element= { vm : this.list[index], index }
           })
         },
 
@@ -115,18 +117,18 @@
                 this.iso.updateSortData();
                 this.iso._requestUpdate();
               });
-            });  
+            });
           }).flatten().value();
         },
 
         sort (name) {
-          this.arrange({sortBy  :name})
+          this.arrange({sortBy: name, sortAscending: this.options.sortAscending})
           this.$emit("sort", name)
         },
 
         filter (name) {
           const filter = this._isotopeOptions.getFilterData[name]
-          this._filterlistener = this.$watch( () => { return _.map(this.list, (el, index) => this.options.getFilterData[name](el, index) );}, 
+          this._filterlistener = this.$watch( () => { return _.map(this.list, (el, index) => this.options.getFilterData[name](el, index) );},
                                               () => { this.iso._requestUpdate();});
           this.arrange({filter})
           this.$emit("filter", name)
@@ -155,12 +157,20 @@
           this.iso.shuffle()
           this.$emit("shuffle")
           this.$emit("sort", null)
+        },
+
+        getFilteredItemElements() {
+          return this.iso.getFilteredItemElements()
+        },
+
+        getElementItems() {
+          return this.iso.getElementItems()
         }
       },
 
       computed: {
         compiledOptions () {
-          const options = _.merge({}, this.options, {itemSelector: "." + this.itemSelector, isJQueryFiltering: false}) 
+          const options = _.merge({}, this.options, {itemSelector: "." + this.itemSelector, isJQueryFiltering: false})
 
           _.forOwn(options.getSortData, (value, key) => {
             if (_.isString(value))
