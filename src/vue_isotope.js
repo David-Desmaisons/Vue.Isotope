@@ -1,9 +1,11 @@
 (function () {
   function buildVueIsotope(_, Isotope) {
 
-    function addClass(node, classValue) {
-      const initValue = (node.data.staticClass === undefined) ? "" : node.data.staticClass + " "
-      node.data.staticClass = initValue + classValue
+    function addClass(node, classValue){
+      if(node.data){
+        const initValue = (node.data.staticClass === undefined) ? "" : node.data.staticClass + " "
+        node.data.staticClass = initValue + classValue
+      }
     }
 
     function getItemVm(elmt) {
