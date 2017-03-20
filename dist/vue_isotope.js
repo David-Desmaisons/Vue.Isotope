@@ -4,8 +4,10 @@
   function buildVueIsotope(_, Isotope) {
 
     function addClass(node, classValue) {
-      var initValue = node.data.staticClass === undefined ? "" : node.data.staticClass + " ";
-      node.data.staticClass = initValue + classValue;
+      if (node.data) {
+        var initValue = !node.data.staticClass ? "" : node.data.staticClass + " ";
+        node.data.staticClass = initValue + classValue;
+      }
     }
 
     function getItemVm(elmt) {
@@ -39,11 +41,43 @@
       render: function render(h) {
         var _this = this;
 
-        var slots = this.$slots.default || [];
-        slots.forEach(function (elt) {
+        var map = {};
+        var prevChildren = this.prevChildren = this.children;
+        var rawChildren = this.$slots.default || [];
+        var children = this.children = [];
+        var removedIndex = this.removedIndex = [];
+
+        rawChildren.forEach(function (elt) {
           return addClass(elt, _this.itemSelector);
         });
-        return h('div', null, slots);
+
+        for (var i = 0; i < rawChildren.length; i++) {
+          var c = rawChildren[i];
+          if (c.tag) {
+            if (c.key != null && String(c.key).indexOf('__vlist') !== 0) {
+              children.push(c);
+              map[c.key] = c;
+            } else {
+              var opts = c.componentOptions;
+              var name = opts ? opts.Ctor.options.name || opts.tag || '' : c.tag;
+              console.log("Warning template error: isotope children must be keyed: <" + name + ">");
+            }
+          }
+        }
+
+        var displayChildren = this.displayChildren = [].concat(children);
+
+        if (prevChildren) {
+          for (var _i = 0; _i < prevChildren.length; _i++) {
+            var _c = prevChildren[_i];
+            if (!map[_c.key]) {
+              displayChildren.splice(_i, 0, _c);
+              removedIndex.push(_i);
+            }
+          }
+        }
+
+        return h('div', null, displayChildren);
       },
       mounted: function mounted() {
         var _this2 = this;
@@ -61,7 +95,7 @@
 
         this.$nextTick(function () {
           _this2._isotopeOptions = options;
-          _this2.link(true);
+          _this2.link();
           _this2.listen();
           var iso = new Isotope(_this2.$el, options);
 
@@ -82,16 +116,29 @@
         _.forEach(this._listeners, function (unlisten) {
           unlisten();
         });
-        if (this._filterlistener) this._filterlistener();
+        if (this._filterlistener) {
+          this._filterlistener();
+        }
+        this.iso = null;
       },
       beforeUpdate: function beforeUpdate() {
         this._oldChidren = Array.prototype.slice.call(this.$el.children);
       },
       updated: function updated() {
-        var newChildren = Array.prototype.slice.call(this.$el.children);
+        var _this3 = this;
+
+        if (!this.iso) {
+          return;
+        }
+
+        var newChildren = [].concat(_toConsumableArray(this.$el.children));
         var added = _.difference(newChildren, this._oldChidren);
-        var removed = _.difference(this._oldChidren, newChildren);
-        this.link(false);
+        var removed = this.removedIndex.map(function (index) {
+          return _this3.$el.children[index];
+        });
+
+        this.cleanupNodes();
+        this.link();
 
         if (!removed.length && !added.length) return;
 
@@ -104,43 +151,55 @@
 
 
       methods: {
-        link: function link(first) {
-          var _this3 = this;
+        cleanupNodes: function cleanupNodes() {
+          var _this4 = this;
+
+          this.removedIndex.reverse();
+          this.removedIndex.forEach(function (index) {
+            return _this4._vnode.children.splice(index, 1);
+          });
+        },
+        link: function link() {
+          var _this5 = this;
 
           var slots = this.$slots.default || [];
           slots.forEach(function (slot, index) {
             var elmt = slot.elm;
-            if (elmt) elmt.__underlying_element = { vm: _this3.list[index], index: index };
+            if (elmt) elmt.__underlying_element = { vm: _this5.list[index], index: index };
           });
         },
         listen: function listen() {
-          var _this4 = this;
+          var _this6 = this;
 
           this._listeners = _(this.compiledOptions.getSortData).map(function (sort) {
-            return _.map(_this4.list, function (collectionElement, index) {
-              return _this4.$watch(function () {
+            return _.map(_this6.list, function (collectionElement, index) {
+              return _this6.$watch(function () {
                 return sort(collectionElement);
               }, function () {
-                _this4.iso.updateSortData();
-                _this4.iso._requestUpdate();
+                _this6.iso.updateSortData();
+                _this6.iso._requestUpdate();
               });
             });
           }).flatten().value();
         },
         sort: function sort(name) {
-          this.arrange({ sortBy: name });
+          var sort = name;
+          if (_.isString(name)) {
+            sort = { sortBy: name };
+          }
+          this.arrange(sort);
           this.$emit("sort", name);
         },
         filter: function filter(name) {
-          var _this5 = this;
+          var _this7 = this;
 
           var filter = this._isotopeOptions.getFilterData[name];
           this._filterlistener = this.$watch(function () {
-            return _.map(_this5.list, function (el, index) {
-              return _this5.options.getFilterData[name](el, index);
+            return _.map(_this7.list, function (el, index) {
+              return _this7.options.getFilterData[name](el, index);
             });
           }, function () {
-            _this5.iso._requestUpdate();
+            _this7.iso._requestUpdate();
           });
           this.arrange({ filter: filter });
           this.$emit("filter", name);
@@ -167,6 +226,12 @@
           this.iso.shuffle();
           this.$emit("shuffle");
           this.$emit("sort", null);
+        },
+        getFilteredItemElements: function getFilteredItemElements() {
+          return this.iso.getFilteredItemElements();
+        },
+        getElementItems: function getElementItems() {
+          return this.iso.getElementItems();
         }
       },
 

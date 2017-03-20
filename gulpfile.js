@@ -8,12 +8,11 @@ var $ = require('gulp-load-plugins')();
 const babel = require('gulp-babel');
 
 
-
-
 gulp.task('scripts', function () {
     return gulp.src('src/**/*.js')
         .pipe(babel({
-            presets: ['es2015']
+            presets: ['es2015'],
+            plugins: ["array-includes", "transform-object-rest-spread"]
         }))
         .pipe($.jshint())
         .pipe($.jshint.reporter(require('jshint-stylish')))
@@ -23,7 +22,8 @@ gulp.task('scripts', function () {
 gulp.task('compile-to-es5', function () {
     return gulp.src('src/**/*.js')
         .pipe(babel({
-            presets: ['es2015']
+            presets: ['es2015'],
+            plugins: ["array-includes", "transform-object-rest-spread"]
         }))
         .pipe(gulp.dest('dist'))
         .pipe($.size());
@@ -37,7 +37,8 @@ gulp.task('js', ['scripts', 'compile-to-es5'], function () {
 
     return gulp.src('src/**/*.js')
         .pipe(babel({
-            presets: ['es2015']
+            presets: ['es2015'],
+            plugins: ["array-includes", "transform-object-rest-spread"]
         }))
         .pipe($.uglify())
         .pipe(rename({
@@ -99,7 +100,8 @@ gulp.task('main-bower-files', function() {
 gulp.task('copy-js', function() {
     return gulp.src('src/**/*.js')
         .pipe(babel({
-            presets: ['es2015']
+            presets: ['es2015'],
+            plugins: ["array-includes", "transform-object-rest-spread"]
         }))
         .pipe(gulp.dest('./examples/src'));
 });

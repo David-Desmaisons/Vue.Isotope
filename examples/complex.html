@@ -17,7 +17,7 @@
         <div >
             <div>
                 <isotope  ref="cpt1" id="root_isotope1" class="isoDefault" :options='option1' :list="list" @filter="filterOption.first=arguments[0]" @sort="sortOption.first=arguments[0]">
-                    <div v-for="element in list" @click="selected=element" >
+                    <div v-for="element,index in list" @click="selected=element" :key="index" >
                     {{element.name}}
                     <br>
                     {{element.id}}
@@ -33,7 +33,7 @@
 
              <div>
                 <isotope  ref="cpt2" id="root_isotope2" class="isoDefault" :options='option2' :list="list" @filter="filterOption.second=arguments[0]" @sort="sortOption.second=arguments[0]">
-                    <div v-for="element in list" @click="selected=element" >
+                    <div v-for="element,index in list" @click="selected=element" :key="index">
                     {{element.name}}
                     <br>
                     {{element.id}}

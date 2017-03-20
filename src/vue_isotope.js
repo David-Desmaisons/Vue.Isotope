@@ -1,9 +1,9 @@
 (function () {
   function buildVueIsotope(_, Isotope) {
 
-    function addClass(node, classValue){
-      if(node.data){
-        const initValue = (node.data.staticClass === undefined) ? "" : node.data.staticClass + " "
+    function addClass(node, classValue) {
+      if (node.data) {
+        const initValue = (!node.data.staticClass) ? "" : node.data.staticClass + " "
         node.data.staticClass = initValue + classValue
       }
     }
@@ -37,9 +37,41 @@
       props,
 
       render(h) {
-        const slots = this.$slots.default || []
-        slots.forEach(elt => addClass(elt, this.itemSelector))
-        return h('div', null, slots)
+        const map = {}
+        const prevChildren = this.prevChildren = this.children
+        const rawChildren = this.$slots.default || []
+        const children = this.children = []
+        const removedIndex = this.removedIndex = []
+
+        rawChildren.forEach(elt => addClass(elt, this.itemSelector))
+
+        for (let i = 0; i < rawChildren.length; i++) {
+          const c = rawChildren[i]
+          if (c.tag) {
+            if (c.key != null && String(c.key).indexOf('__vlist') !== 0) {
+              children.push(c)
+              map[c.key] = c
+            } else {
+              const opts = c.componentOptions
+              const name = opts ? (opts.Ctor.options.name || opts.tag || '') : c.tag
+              console.log(`Warning template error: isotope children must be keyed: <${name}>`)
+            }
+          }
+        }
+
+        const displayChildren = this.displayChildren = [...children]
+
+        if (prevChildren) {
+          for (let i = 0; i < prevChildren.length; i++) {
+            const c = prevChildren[i]
+            if (!map[c.key]) {
+              displayChildren.splice(i, 0, c)
+              removedIndex.push(i)
+            }
+          }
+        }
+
+        return h('div', null, displayChildren)
       },
 
       mounted() {
@@ -75,8 +107,9 @@
       beforeDestroy() {
         this.iso.destroy()
         _.forEach(this._listeners, (unlisten) => { unlisten(); })
-        if (this._filterlistener)
+        if (this._filterlistener) {
           this._filterlistener()
+        }
         this.iso = null
       },
 
@@ -89,9 +122,11 @@
           return;
         }
 
-        const newChildren = Array.prototype.slice.call(this.$el.children)
+        const newChildren = [...this.$el.children]
         const added = _.difference(newChildren, this._oldChidren)
-        const removed = _.difference(this._oldChidren, newChildren)
+        const removed = this.removedIndex.map(index => this.$el.children[index])
+
+        this.cleanupNodes()
         this.link()
 
         if ((!removed.length) && (!added.length))
@@ -105,6 +140,11 @@
       },
 
       methods: {
+        cleanupNodes() {
+          this.removedIndex.reverse()
+          this.removedIndex.forEach(index => this._vnode.children.splice(index, 1))
+        },
+
         link() {
           const slots = this.$slots.default || []
           slots.forEach(
