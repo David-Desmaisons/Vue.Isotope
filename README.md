@@ -48,6 +48,8 @@ Use draggable component:
 </isotope>
 ```
 
+Important: elements inside the `v-for` loop shoukd have a `key` prop set.
+
 #### Props
 ##### itemSelector
 Type: `String`<br>
@@ -128,6 +130,11 @@ Shuffle the isotope component.
 ### Working with images 
 
 Unloaded images can throw off Isotope layouts and cause item elements to overlap. Use [vue.imagesLoaded](https://github.com/David-Desmaisons/Vue.ImagesLoaded#isotope-example) to solve this problem.
+
+### Gotchas
+
+* Elements inside the `v-for` loop shoukd have a `key` prop set otherwise they will not be rendered.
+
 
 ### For Vue.js 1.0
 
