@@ -38,7 +38,7 @@ Isotope elements:
 ## Usage
 ### For Vue.js 2.0
 
-Use draggable component:
+Use isotope component:
 
 ``` html
 <isotope :options='getOptions()' :list="list" @filter="filterOption=arguments[0]" @sort="sortOption=arguments[0]">
@@ -48,7 +48,7 @@ Use draggable component:
 </isotope>
 ```
 
-Important: elements inside the `v-for` loop shoukd have a `key` prop set.
+Important: elements inside the `v-for` loop should have a `key` prop set.
 
 #### Props
 ##### itemSelector
@@ -100,7 +100,7 @@ Required: `true`
 
 #### Events
 `filter`, `sort`, `layout`<br>
-Send when filter, sort and layout respectivelly are called on the isotope element with the corresponding `String` parameter.
+Send when filter, sort and layout respectively are called on the isotope element with the corresponding `String` parameter.
 
 `shuffle`<br>
 Send when shuffle is called on the isotope element.
@@ -133,7 +133,7 @@ Unloaded images can throw off Isotope layouts and cause item elements to overlap
 
 ### Gotchas
 
-* Elements inside the `v-for` loop shoukd have a `key` prop set otherwise they will not be rendered.
+* Elements inside the `v-for` loop should have a `key` prop set otherwise they will not be rendered.
 
 
 ### For Vue.js 1.0
@@ -165,10 +165,10 @@ Unloaded images can throw off Isotope layouts and cause item elements to overlap
   ```
 - #### For `<script>` Include
 
-  Just include `vue.istope.js` after Vue and lodash(>=4).
+  Just include `vue.isotope.js` after Vue and lodash(>=4).
   
 - #### Webpack and Browserify usage:
-  Be aware of isotope recomendation for usage with [Webpack](http://isotope.metafizzy.co/extras.html#webpack) and [Browserify](http://isotope.metafizzy.co/extras.html#browserify)
+  Be aware of isotope recommendation for usage with [Webpack](http://isotope.metafizzy.co/extras.html#webpack) and [Browserify](http://isotope.metafizzy.co/extras.html#browserify)
   
 ## License
   
