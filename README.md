@@ -135,6 +135,7 @@ Unloaded images can throw off Isotope layouts and cause item elements to overlap
 
 * Elements inside the `v-for` loop should have a `key` prop set otherwise they will not be rendered.
 
+* Using Webpack or Browersify requires extra configuration, see [here](#webpack-and-browserify-usage)
 
 ### For Vue.js 1.0
 
