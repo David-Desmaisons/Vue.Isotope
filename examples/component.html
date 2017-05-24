@@ -1,26 +1,31 @@
 <!doctype html>
 <html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Component Example</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="css/main.css">
-    </head>
-    <body>
-     
-     <div id="main">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Component Example</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="css/main.css">
+
+
+</head>
+
+<body>
+
+    <div id="main">
         <h1>Vue isotope</h1>
 
-                
+
         <div>
-            <isotope ref="cpt" id="root_isotope" class="isoDefault" :list="list" :options='getOption()' @filter="filterOption=arguments[0]" @sort="sortOption=arguments[0]">
-                <box v-for="element in list" @click="selected=element" :elem="element" >
+            <isotope ref="cpt" id="root_isotope" class="isoDefault" :list="list" :options='getOption()' @filter="filterOption=arguments[0]"
+                @sort="sortOption=arguments[0]">
+                <box v-for="(element, index) in list" @click="selected=element" :elem="element" :key="index">
                 </box>
-             </isotope>
-         </div>
+            </isotope>
+        </div>
 
         <div id="change">
             <button @click="add">Add</button>
@@ -28,17 +33,17 @@
         </div>
         <div id="filter">
             <div>
-                <input type="text" v-model="filterText"  placeholder="no filter"> 
-                <button :class="[filterOption==='filterByText' ? 'is-checked' : '']" @click="$refs.cpt.filter('filterByText')">Filter</button>   
+                <input type="text" v-model="filterText" placeholder="no filter">
+                <button :class="[filterOption==='filterByText' ? 'is-checked' : '']" @click="$refs.cpt.filter('filterByText')">Filter</button>
             </div>
             <button :class="[filterOption==='isEven' ? 'is-checked' : '']" @click="$refs.cpt.filter('isEven')">Filter Even</button>
             <button :class="[filterOption==='isOdd' ? 'is-checked' : '']" @click="$refs.cpt.filter('isOdd')">Filter Odd</button>
-            <button  @click="$refs.cpt.unfilter()">Unfilter</button>
+            <button @click="$refs.cpt.unfilter()">Unfilter</button>
         </div>
-        <div id="sort">  
+        <div id="sort">
             <button :class="[sortOption==='name' ? 'is-checked' : '']" @click="$refs.cpt.sort('name')">Sort by name</button>
-            <button :class="[sortOption==='id' ? 'is-checked' : '']" @click="$refs.cpt.sort('id')">Sort by id</button> 
-            <button @click="$refs.cpt.shuffle()">Shuffle</button>        
+            <button :class="[sortOption==='id' ? 'is-checked' : '']" @click="$refs.cpt.sort('id')">Sort by id</button>
+            <button @click="$refs.cpt.shuffle()">Shuffle</button>
         </div>
         <div>
             <div v-if="selected" class="item">
@@ -52,12 +57,13 @@
         <a href="complex.html">More complex example</a>
         <a href="metal.html">Isotope example</a>
 
-        <script type="text/javascript" src="..\libs\vue\dist\vue.js"></script>
-        <script type="text/javascript" src="..\libs\lodash\lodash.js"></script>
-        <script type="text/javascript" src="..\libs\isotope\isotope.pkgd.js"></script>
-        <script type="text/javascript" src="src\vue_isotope.js"></script>
-        <script type="text/javascript" src="script\main_component.js"></script>
-
     </div>
-    </body>
+
+    <script type="text/javascript" src="..\libs\vue\dist\vue.js"></script>
+    <script type="text/javascript" src="..\libs\lodash\lodash.js"></script>
+    <script type="text/javascript" src="..\libs\isotope\isotope.pkgd.js"></script>
+    <script type="text/javascript" src="src\vue_isotope.js"></script>
+    <script type="text/javascript" src="script\main_component.js"></script>
+</body>
+
 </html>
