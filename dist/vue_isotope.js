@@ -94,6 +94,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         };
         update(options.getSortData);
         update(options.getFilterData);
+        if (options.filter) {
+          options.filter = this.buildFilterFunction(options.filter);
+        }
 
         this.$nextTick(function () {
           _this2._isotopeOptions = options;
@@ -192,7 +195,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           this.arrange(sort);
           this.$emit("sort", name);
         },
-        filter: function filter(name) {
+        buildFilterFunction: function buildFilterFunction(name) {
           var _this7 = this;
 
           var filter = this._isotopeOptions.getFilterData[name];
@@ -203,6 +206,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           }, function () {
             _this7.iso._requestUpdate();
           });
+          return filter;
+        },
+        filter: function filter(name) {
+          var filter = this.buildFilterFunction(name);
           this.arrange({ filter: filter });
           this.$emit("filter", name);
         },

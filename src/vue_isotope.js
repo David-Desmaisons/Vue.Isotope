@@ -83,9 +83,12 @@
         };
         update(options.getSortData)
         update(options.getFilterData);
+        this._isotopeOptions = options
+        if (options.filter) {
+          options.filter = this.buildFilterFunction(options.filter)
+        }
 
-        this.$nextTick(() => {
-          this._isotopeOptions = options
+        this.$nextTick(() => {       
           this.link()
           this.listen()
           const iso = new Isotope(this.$el, options)
@@ -175,10 +178,15 @@
           this.$emit("sort", name)
         },
 
-        filter(name) {
+        buildFilterFunction (name) {
           const filter = this._isotopeOptions.getFilterData[name]
           this._filterlistener = this.$watch(() => { return _.map(this.list, (el, index) => this.options.getFilterData[name](el, index)); },
-            () => { this.iso._requestUpdate(); });
+                                              () => { this.iso._requestUpdate(); });
+          return filter
+        },
+
+        filter(name) {
+          const filter = this.buildFilterFunction(name)
           this.arrange({ filter })
           this.$emit("filter", name)
         },

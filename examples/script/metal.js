@@ -99,12 +99,13 @@ var vm = new Vue({
 				symbol: "Yb", 
 				number: 70, 
 				weight: 173.054,
-				category: "lanthanoid"				
+				category: "lanthanoid"
 			},],
 		selected: null,
 		sortOption: "original-order",
-		filterOption: "show all",
+		filterOption: "metal",
 		option:{
+			filter: 'metal',
 			getFilterData: {
 			    "show all": function(){
 			    	return true;
