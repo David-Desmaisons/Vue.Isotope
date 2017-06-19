@@ -34,6 +34,8 @@
     }
 
     var isotopeComponent = {
+      name: 'isotope',
+
       props,
 
       render(h) {
