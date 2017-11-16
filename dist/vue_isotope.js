@@ -38,25 +38,24 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     };
 
     var isotopeComponent = {
+      name: 'isotope',
+
       props: props,
 
       render: function render(h) {
-        var _this = this;
-
         var map = {};
         var prevChildren = this.prevChildren = this.children;
         var rawChildren = this.$slots.default || [];
         var children = this.children = [];
         var removedIndex = this.removedIndex = [];
 
-        rawChildren.forEach(function (elt) {
-          return addClass(elt, _this.itemSelector);
-        });
-
         for (var i = 0; i < rawChildren.length; i++) {
           var c = rawChildren[i];
           if (c.tag) {
             if (c.key != null && String(c.key).indexOf('__vlist') !== 0) {
+              if (c.key !== '$ignore') {
+                addClass(c, this.itemSelector);
+              }
               children.push(c);
               map[c.key] = c;
             } else {
@@ -94,12 +93,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         };
         update(options.getSortData);
         update(options.getFilterData);
+        this._isotopeOptions = options;
         if (options.filter) {
           options.filter = this.buildFilterFunction(options.filter);
         }
 
         this.$nextTick(function () {
-          _this2._isotopeOptions = options;
           _this2.link();
           _this2.listen();
           var iso = new Isotope(_this2.$el, options);
@@ -262,7 +261,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     return isotopeComponent;
   }
 
-  if (typeof exports == "object") {
+  if (typeof exports === "object") {
     var _ = require("lodash"),
         Isotope = require("isotope-layout");
     module.exports = buildVueIsotope(_, Isotope);
