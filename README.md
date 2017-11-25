@@ -19,7 +19,7 @@ Integrate Vue with isotope filter & sort magical layouts.
 ![demo gif](https://raw.githubusercontent.com/David-Desmaisons/Vue.Isotope/master/example1.gif)
 
 [Basic](https://jsfiddle.net/dede89/rz7q746y/)<br>
-[Complete](https://jsfiddle.net/dede89/jm8g2qx7/)<br>
+[Complete](https://jsfiddle.net/dede89/g6c0vzm2/)<br>
 
 
 Isotope elements:
