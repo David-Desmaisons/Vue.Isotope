@@ -45,14 +45,15 @@
         const children = this.children = []
         const removedIndex = this.removedIndex = []
 
-        rawChildren.forEach(elt => addClass(elt, this.itemSelector))
-
         for (let i = 0; i < rawChildren.length; i++) {
           const c = rawChildren[i]
           if (c.tag) {
             if (c.key != null && String(c.key).indexOf('__vlist') !== 0) {
-              children.push(c)
-              map[c.key] = c
+              if (c.key !== '$ignore') {
+                addClass(c, _this.itemSelector)
+              }
+              children.push(c);
+              map[c.key] = c;
             } else {
               const opts = c.componentOptions
               const name = opts ? (opts.Ctor.options.name || opts.tag || '') : c.tag
