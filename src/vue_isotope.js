@@ -21,7 +21,6 @@
             gutter: 10
           }
         },
-        sort: String
       },
       itemSelector: {
         type: String,

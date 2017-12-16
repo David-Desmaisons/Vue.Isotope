@@ -1,5 +1,6 @@
 "use strict";
 
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 (function () {
@@ -24,8 +25,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           masonry: {
             gutter: 10
           }
-        },
-        sort: String
+        }
       },
       itemSelector: {
         type: String,
@@ -38,6 +38,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     };
 
     var isotopeComponent = {
+      name: 'isotope',
+
       props: props,
 
       render: function render(h) {
@@ -94,12 +96,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         };
         update(options.getSortData);
         update(options.getFilterData);
+        this._isotopeOptions = options;
         if (options.filter) {
           options.filter = this.buildFilterFunction(options.filter);
         }
 
         this.$nextTick(function () {
-          _this2._isotopeOptions = options;
           _this2.link();
           _this2.listen();
           var iso = new Isotope(_this2.$el, options);
