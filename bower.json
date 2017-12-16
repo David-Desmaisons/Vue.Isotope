@@ -4,7 +4,7 @@
     "desmaisons_david <desmaisons_david@hotmail.com>"
   ],
   "description": "vue isotope directive",
-  "main": "src/vue_isotope.js",
+  "main": "dist/vue_isotope.js",
   "keywords": [
     "vue",
     "list",
