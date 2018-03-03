@@ -1,6 +1,6 @@
 {
   "name": "vueisotope",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "vue isotope for directive",
   "main": "dist/vue_isotope.min.js",
   "files": [
