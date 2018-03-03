@@ -109,7 +109,6 @@
       },
 
       beforeDestroy() {
-        this.iso.destroy()
         _.forEach(this._listeners, (unlisten) => { unlisten(); })
         if (this._filterlistener) {
           this._filterlistener()
