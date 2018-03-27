@@ -67,7 +67,7 @@
             const c = prevChildren[i]
             if (!map[c.key]) {
               displayChildren.splice(i, 0, c)
-              removedKeys.push(i)
+              removedKeys.push(c.key)
             }
           }
         }

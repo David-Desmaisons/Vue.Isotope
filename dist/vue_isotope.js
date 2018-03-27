@@ -77,7 +77,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             var _c = prevChildren[_i];
             if (!map[_c.key]) {
               displayChildren.splice(_i, 0, _c);
-              removedKeys.push(_i);
+              removedKeys.push(_c.key);
             }
           }
         }
