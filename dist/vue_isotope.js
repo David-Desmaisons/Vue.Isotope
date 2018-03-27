@@ -267,7 +267,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     return isotopeComponent;
   }
 
-  if ((typeof exports === "undefined" ? "undefined" : _typeof(exports)) == "object") {
+  if (typeof exports == "object") {
     var _ = require("lodash"),
         Isotope = require("isotope-layout");
     module.exports = buildVueIsotope(_, Isotope);
