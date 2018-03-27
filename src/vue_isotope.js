@@ -42,7 +42,7 @@
         const prevChildren = this.prevChildren = this.children
         const rawChildren = this.$slots.default || []
         const children = this.children = []
-        const removedIndex = this.removedIndex = []
+        const removedKeys = this.removedKeys = []
 
         rawChildren.forEach(elt => addClass(elt, this.itemSelector))
 
@@ -67,7 +67,7 @@
             const c = prevChildren[i]
             if (!map[c.key]) {
               displayChildren.splice(i, 0, c)
-              removedIndex.push(i)
+              removedKeys.push(i)
             }
           }
         }
@@ -127,7 +127,7 @@
 
         const newChildren = [...this.$el.children]
         const added = _.difference(newChildren, this._oldChidren)
-        const removed = this.removedIndex.map(index => this.$el.children[index])
+        const removed = this.removedKeys.map(index => _.find(this.$el.children, c => c.__vue__.$vnode.key === index))
 
         this.cleanupNodes()
         this.link()
@@ -144,8 +144,9 @@
 
       methods: {
         cleanupNodes() {
-          this.removedIndex.reverse()
-          this.removedIndex.forEach(index => this._vnode.children.splice(index, 1))
+          this.removedKeys.reverse()
+          _.remove(this._vnode.children, c => _.includes(this.removedKeys, c.key))
+          _.remove(this.$children, c => _.includes(this.removedKeys, c.$vnode.key))
         },
 
         link() {
