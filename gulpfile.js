@@ -91,6 +91,9 @@ gulp.task('main-bower-files', function() {
             overrides: {
                 "isotope-packery": {
                     main: "packery-mode.pkgd.js"
+                },
+                vue: {
+                    main: './dist/vue.js'
                 }
             }
         }))
