@@ -1,15 +1,5 @@
 (function () {
   function buildVueIsotope(_, Isotope) {
-    
-    function elementSizingClass(prop, node) {
-      if(prop) {
-        let len = prop.length
-        if(node.data.staticClass.includes(prop.substr(1, len))) {
-          return true
-        }
-      }
-      return false
-    }
 
     function addClass(node, classValue) {
       if(!node.data || (node.data.staticClass && node.data.staticClass.includes('ignore'))) {
@@ -192,8 +182,6 @@
 
         buildFilterFunction (name) {
           const filter = this._isotopeOptions.getFilterData[name]
-          this._filterlistener = this.$watch(() => { return _.map(this.list, (el, index) => this.options.getFilterData[name](el, index)); },
-                                              () => { this.iso._requestUpdate(); });
           return filter
         },
 
