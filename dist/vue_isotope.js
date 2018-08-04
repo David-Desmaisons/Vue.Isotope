@@ -1,15 +1,18 @@
 "use strict";
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 (function () {
   function buildVueIsotope(_, Isotope) {
 
     function addClass(node, classValue) {
-      if (node.data) {
-        var initValue = !node.data.staticClass ? "" : node.data.staticClass + " ";
-        node.data.staticClass = initValue + classValue;
+      if (!node.data || node.data.staticClass && node.data.staticClass.indexOf('ignore') !== -1) {
+        return;
       }
+      var initValue = !node.data.staticClass ? "" : node.data.staticClass + " ";
+      node.data.staticClass = initValue + classValue;
     }
 
     function getItemVm(elmt) {
@@ -140,7 +143,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         var added = _.difference(newChildren, this._oldChidren);
         var removed = this.removedKeys.map(function (index) {
           return _.find(_this3.$el.children, function (c) {
-            return c.__vue__.$vnode.key === index;
+            return c.__vue__ && c.__vue__.$vnode.key === index;
           });
         });
 
@@ -173,7 +176,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           var _this5 = this;
 
           var slots = this.$slots.default || [];
-          slots.forEach(function (slot, index) {
+          slots.filter(function (slot) {
+            return slot.data && slot.data.staticClass && !(slot.data.staticClass.indexOf('ignore') !== -1);
+          }).forEach(function (slot, index) {
             var elmt = slot.elm;
             if (elmt) elmt.__underlying_element = { vm: _this5.list[index], index: index };
           });
@@ -201,16 +206,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           this.$emit("sort", name);
         },
         buildFilterFunction: function buildFilterFunction(name) {
-          var _this7 = this;
-
           var filter = this._isotopeOptions.getFilterData[name];
-          this._filterlistener = this.$watch(function () {
-            return _.map(_this7.list, function (el, index) {
-              return _this7.options.getFilterData[name](el, index);
-            });
-          }, function () {
-            _this7.iso._requestUpdate();
-          });
           return filter;
         },
         filter: function filter(name) {
@@ -267,7 +263,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     return isotopeComponent;
   }
 
-  if (typeof exports == "object") {
+  if (typeof exports === "object") {
     var _ = require("lodash"),
         Isotope = require("isotope-layout");
     module.exports = buildVueIsotope(_, Isotope);

@@ -128,7 +128,7 @@
 
         const newChildren = [...this.$el.children]
         const added = _.difference(newChildren, this._oldChidren)
-        const removed = this.removedKeys.map(index => _.find(this.$el.children, c => c.__vue__.$vnode.key === index))
+        const removed = this.removedKeys.map(index => _.find(this.$el.children, c => c.__vue__ && c.__vue__.$vnode.key === index))
 
         this.cleanupNodes()
         this.link()
