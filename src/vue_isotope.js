@@ -1,7 +1,27 @@
 (function () {
   function buildVueIsotope(_, Isotope) {
+    
+    function elementSizingClass(prop, node) {
+      if(prop) {
+        let len = prop.length
+        if(node.data.staticClass.includes(prop.substr(1, len))) {
+          return true
+        }
+      }
+      return false
+    }
 
     function addClass(node, classValue) {
+      if(node.data.staticClass) {
+        if (node.data.staticClass.indexOf(classValue) !== -1) {
+          return
+        }
+        if(this.options.masonry && 
+          (elementSizingClass(this.options.masonry.columnWidth, node) || 
+          elementSizingClass(this.options.masonry.gutter, node))) {
+          return
+        }
+      }
       if (node.data) {
         const initValue = (!node.data.staticClass) ? "" : node.data.staticClass + " "
         node.data.staticClass = initValue + classValue
