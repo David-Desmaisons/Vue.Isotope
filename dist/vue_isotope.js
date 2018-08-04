@@ -48,7 +48,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         var prevChildren = this.prevChildren = this.children;
         var rawChildren = this.$slots.default || [];
         var children = this.children = [];
-        var removedIndex = this.removedIndex = [];
+        var removedKeys = this.removedKeys = [];
 
         rawChildren.forEach(function (elt) {
           return addClass(elt, _this.itemSelector);
@@ -75,7 +75,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             var _c = prevChildren[_i];
             if (!map[_c.key]) {
               displayChildren.splice(_i, 0, _c);
-              removedIndex.push(_i);
+              removedKeys.push(_c.key);
             }
           }
         }
@@ -138,8 +138,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
         var newChildren = [].concat(_toConsumableArray(this.$el.children));
         var added = _.difference(newChildren, this._oldChidren);
-        var removed = this.removedIndex.map(function (index) {
-          return _this3.$el.children[index];
+        var removed = this.removedKeys.map(function (index) {
+          return _.find(_this3.$el.children, function (c) {
+            return c.__vue__.$vnode.key === index;
+          });
         });
 
         this.cleanupNodes();
@@ -159,9 +161,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         cleanupNodes: function cleanupNodes() {
           var _this4 = this;
 
-          this.removedIndex.reverse();
-          this.removedIndex.forEach(function (index) {
-            return _this4._vnode.children.splice(index, 1);
+          this.removedKeys.reverse();
+          _.remove(this._vnode.children, function (c) {
+            return _.indexOf(_this4.removedKeys, c.key) !== -1;
+          });
+          _.remove(this.$children, function (c) {
+            return _.indexOf(_this4.removedKeys, c.$vnode.key) !== -1;
           });
         },
         link: function link() {
