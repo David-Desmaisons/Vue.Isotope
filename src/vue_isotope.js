@@ -170,7 +170,7 @@
 
         link() {
           const slots = this.$slots.default || []
-          slots.forEach(
+          slots.filter((slot) => slot.componentInstance).forEach(
             (slot, index) => {
               const elmt = slot.elm
               if (elmt)
