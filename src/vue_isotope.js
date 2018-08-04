@@ -12,20 +12,11 @@
     }
 
     function addClass(node, classValue) {
-      if(node.data.staticClass) {
-        if (node.data.staticClass.indexOf(classValue) !== -1) {
-          return
-        }
-        if(this.options.masonry && 
-          (elementSizingClass(this.options.masonry.columnWidth, node) || 
-          elementSizingClass(this.options.masonry.gutter, node))) {
-          return
-        }
+      if(!node.data || (node.data.staticClass && node.data.staticClass.includes('ignore'))) {
+        return
       }
-      if (node.data) {
-        const initValue = (!node.data.staticClass) ? "" : node.data.staticClass + " "
-        node.data.staticClass = initValue + classValue
-      }
+      const initValue = (!node.data.staticClass) ? "" : node.data.staticClass + " "
+      node.data.staticClass = initValue + classValue
     }
 
     function getItemVm(elmt) {
@@ -170,7 +161,8 @@
 
         link() {
           const slots = this.$slots.default || []
-          slots.filter((slot) => slot.componentInstance).forEach(
+          slots.filter((slot) => slot.data && slot.data.staticClass && !slot.data.staticClass.includes('ignore'))
+          .forEach(
             (slot, index) => {
               const elmt = slot.elm
               if (elmt)
