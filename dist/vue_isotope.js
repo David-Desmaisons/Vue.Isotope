@@ -263,11 +263,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   }
 
   if (typeof exports == "object") {
-    var _ = require("lodash"),
+    var _ = require("lodash.difference"),
         Isotope = require("isotope-layout");
     module.exports = buildVueIsotope(_, Isotope);
   } else if (typeof define == "function" && define.amd) {
-    define(['lodash', 'Isotope'], function (_, Isotope) {
+    define(['lodash.difference', 'Isotope'], function (_, Isotope) {
       return buildVueIsotope(_, Isotope);
     });
   } else if (window.Vue && window._ && window.Isotope) {
