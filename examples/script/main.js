@@ -11,21 +11,21 @@ var vm = new Vue({
 		selected: null,
 		sortOption:null,
 		filterOption:null,
-		filterText: ""
+		filterText: "",
 	},
 	methods:{
 		getOptions: function () {
-			var _this = this
+			var _this = this;
 			return {
 				layoutMode: 'masonry',
 	          	masonry: {
-	            	gutter: 10
+	            	gutter: 10,
 	          	},
 				getSortData: {
 	        		id: "id",
 	        		name: function(itemElem){
 	        			return itemElem.name.toLowerCase();     
-	        		}
+	        		},
 	        	},
 	      		getFilterData:{
 	      			isEven: function(itemElem){
@@ -36,19 +36,19 @@ var vm = new Vue({
 	      			},
 	      			filterByText: function(itemElem){
 	        			return itemElem.name.toLowerCase().includes(_this.filterText.toLowerCase());
-	        		}
-	      		}
-	      	}
+	        		},
+	      		},
+	      	};
 		},
 		add: function () {
 			this.list.push({name:'Juan', id:count++});
 		},
 		replace: function(){
-			this.list=[{name:'Edgard', id: count++}, {name:'James', id:count++}]
+			this.list=[{name:'Edgard', id: count++}, {name:'James', id:count++}];
 		},
 		remove: function(){
 			if (this.list.length)
-				this.list.splice(0, 1)
-		}
-	}
+				this.list.splice(0, 1);
+		},
+	},
 });

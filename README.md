@@ -1,11 +1,7 @@
-# Vue.Isotope
-[![GitHub open issues](https://img.shields.io/github/issues/David-Desmaisons/Vue.Isotope.svg?maxAge=2592000)](https://github.com/David-Desmaisons/Vue.Isotope/issues)
-[![GitHub closed issues](https://img.shields.io/github/issues-closed/David-Desmaisons/Vue.Isotope.svg?maxAge=2592000)](https://github.com/David-Desmaisons/Vue.Isotope/issues)
-[![Npm download](https://img.shields.io/npm/dt/vueisotope.svg?maxAge=2592000)](https://www.npmjs.com/package/vueisotope)
-[![Npm version](https://img.shields.io/npm/v/vueisotope.svg?maxAge=2592000)](https://www.npmjs.com/package/vueisotope)
-[![Package Quality](http://npm.packagequality.com/shield/vueisotope.svg)](http://packagequality.com/#?package=vueisotope)
-[![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
-[![MIT License](https://img.shields.io/github/license/David-Desmaisons/Vue.Isotope.svg)](https://github.com/David-Desmaisons/Vue.Isotope/blob/master/LICENSE)
+# Vue.Isotope2
+Fork of [Vue.Isotope](https://github.com/David-Desmaisons/Vue.Isotope) by David Desmaisons.
+
+This repository is a modernized build, it removes the lodash dependency and has some bug fixes. All credit about everything else to the original author.
 
 Vue component (Vue.js 2.0) or directive (Vue.js 1.0) allowing [isotope layout](http://isotope.metafizzy.co/) including filtering and sorting.
 
@@ -16,15 +12,14 @@ Integrate Vue with isotope filter & sort magical layouts.
 
 ## Demo
 
-![demo gif](https://raw.githubusercontent.com/David-Desmaisons/Vue.Isotope/master/example1.gif)
+![demo gif](https://raw.githubusercontent.com/hctpbl/Vue.Isotope/master/example1.gif)
 
 [Basic](https://jsfiddle.net/dede89/rz7q746y/)<br>
 [Complete](https://jsfiddle.net/dede89/g6c0vzm2/)<br>
 
 
 Isotope elements:
-
-![demo gif](https://raw.githubusercontent.com/David-Desmaisons/Vue.Isotope/master/example2.gif)
+![demo gif](https://raw.githubusercontent.com/hctpbl/Vue.Isotope/master/example2.gif)
 
 [fiddle](https://jsfiddle.net/dede89/1a32bzm5/)<br>
 
@@ -135,8 +130,6 @@ Unloaded images can throw off Isotope layouts and cause item elements to overlap
 
 * Elements inside the `v-for` loop should have a `key` prop set otherwise they will not be rendered.
 
-* Using Webpack or Browersify requires extra configuration, see [here](#webpack-and-browserify-usage)
-
 ### For Vue.js 1.0
 
 [See here](documentation/Doc.vue.1.md)
@@ -173,4 +166,4 @@ Unloaded images can throw off Isotope layouts and cause item elements to overlap
   
 ## License
   
-  [MIT](https://github.com/David-Desmaisons/Vue.isotope/blob/master/LICENSE)
+  [MIT](https://github.com/hctpbl/Vue.Isotope/blob/master/LICENSE)

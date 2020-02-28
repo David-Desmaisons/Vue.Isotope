@@ -10,11 +10,11 @@ var vm = new Vue({
 		selected:null,
     sortOption:{
       first:null,
-      second:null
+      second:null,
     },
     filterOption:{
       first:null,
-      second:null
+      second:null,
     },
 		option1:{
 			id : "first",
@@ -22,7 +22,7 @@ var vm = new Vue({
         		id: "id",
         		name: function(itemElem){
         			return itemElem.name.toLowerCase();
-        		}
+        		},
       		},
       		getFilterData:{
       			isEven: function(itemElem){
@@ -30,8 +30,8 @@ var vm = new Vue({
       			},
       			isOdd: function(itemElem){
       				return itemElem.id % 2 !== 0;
-      			}
-      		}
+      			},
+      		},
 		},
 		option2:{
 			id : "second",
@@ -39,7 +39,7 @@ var vm = new Vue({
         	id: "id",
         	name: function(itemElem){
         		return itemElem.name.toLowerCase();
-        	}
+        	},
       },
       getFilterData:{
       	isEven: function(itemElem){
@@ -47,16 +47,16 @@ var vm = new Vue({
       	},
       	isOdd: function(itemElem){
       		return itemElem.id % 2 !== 0;
-      	}
-      }
-		}
+      	},
+      },
+		},
 	},
 	methods:{
 		add: function(){
 			this.list.push({name:'Juan', id:count++});
 		},
 		replace: function(){
-			this.list=[{name:'Edgard', id: count++}, {name:'James', id:count++}]
-		}
-	}
+			this.list=[{name:'Edgard', id: count++}, {name:'James', id:count++}];
+		},
+	},
 });

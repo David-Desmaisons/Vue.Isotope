@@ -12,7 +12,7 @@ var vm = new Vue({
 			"masonryHorizontal",
 			"fitColumns",
 			"cellsByColumn",
-			"horiz"
+			"horiz",
 		],
 		currentLayout:"masonry",
 		list:[{ 
@@ -21,14 +21,14 @@ var vm = new Vue({
 				number: 80, 
 				weight: 200.59,
 				category: "transition",
-				metal: true
+				metal: true,
 			},
 			{ 
 				name: "Tellurium", 
 				symbol: "Te", 
 				number: 52, 
 				weight: 127.6,
-				category: "metalloid"
+				category: "metalloid",
 			}, 
 			{ 
 				name: "Bismuth", 
@@ -36,7 +36,7 @@ var vm = new Vue({
 				number: 83,
 				weight: 208.980,
 				category: "post-transition",
-				metal: true
+				metal: true,
 			}, 
 			{ 
 				name: "Lead", 
@@ -44,7 +44,7 @@ var vm = new Vue({
 				number: 82, 
 				weight: 207.2,
 				category: "post-transition",
-				metal: true
+				metal: true,
 			},
 			{ 
 				name: "Gold", 
@@ -52,7 +52,7 @@ var vm = new Vue({
 				number: 79, 
 				weight: 196.967,
 				category: "transition",
-				metal: true
+				metal: true,
 			},
 			{ 
 				name: "Potassium", 
@@ -60,7 +60,7 @@ var vm = new Vue({
 				number: 19, 
 				weight: 39.0983,
 				category: "alkali",
-				metal: true
+				metal: true,
 			},
 			{ 
 				name: "Sodium", 
@@ -68,7 +68,7 @@ var vm = new Vue({
 				number: 11, 
 				weight: 22.99,
 				category: "alkali",
-				metal: true
+				metal: true,
 			},
 			{ 
 				name: "Cadmium", 
@@ -76,7 +76,7 @@ var vm = new Vue({
 				number: 48, 
 				weight: 112.411,
 				category: "transition",
-				metal: true
+				metal: true,
 			},
 			{ 
 				name: "Calcium", 
@@ -84,7 +84,7 @@ var vm = new Vue({
 				number: 20, 
 				weight: 40.078,
 				category: "alkaline-earth",
-				metal: true
+				metal: true,
 			},
 			{
 				name: "Rhenium", 
@@ -92,15 +92,15 @@ var vm = new Vue({
 				number: 75, 
 				weight: 186.207,
 				category: "transition",
-				metal: true				
+				metal: true,				
 			},
 			{
 				name: "Ytterbium", 
 				symbol: "Yb", 
 				number: 70, 
 				weight: 173.054,
-				category: "lanthanoid"
-			},],
+				category: "lanthanoid",
+			}],
 		selected: null,
 		sortOption: "original-order",
 		filterOption: "metal",
@@ -131,29 +131,29 @@ var vm = new Vue({
   				},
   				"name ends with ium": function(el) {
     				return el.name.match( /ium$/ );
-  				}
+  				},
 			},
 			getSortData: {
 			    name: "name",
 			    symbol: "symbol",
 			    number: "number", 
 				weight: "weight",
-				category: "category"
+				category: "category",
 			},
 			cellsByRow: {
 			    columnWidth: 220,
-			    rowHeight: 220
+			    rowHeight: 220,
 			},
 			masonryHorizontal: {
-			    rowHeight: 110
+			    rowHeight: 110,
 			},
 			cellsByColumn: {
 				columnWidth: 220,
-			    rowHeight: 220
+			    rowHeight: 220,
 			},
 			packery: {
-  				gutter: 10
-			}
-		}
-	}
+  				gutter: 10,
+			},
+		},
+	},
 });
