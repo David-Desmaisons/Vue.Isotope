@@ -2,11 +2,18 @@
   "name": "vueisotope",
   "version": "3.1.2",
   "description": "vue isotope for directive",
+  "author": "Héctor Pablos",
+  "license": "MIT",
+  "homepage": " https://github.com/hctpbl/Vue.Isotope#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hctpbl/Vue.Isotope.git"
+  },
   "main": "dist/vueisotope.umd.js",
   "module": "dist/vueisotope.esm.js",
   "unpkg": "dist/vueisotope.min.js",
   "browser": {
-    "./sfc": "src/vueisotope.vue"
+    "./sfc": "src/vueisotope.js"
   },
   "keywords": [
     "vue",
@@ -19,6 +26,12 @@
   "directories": {
     "example": "examples",
     "test": "test"
+  },
+  "scripts": {
+    "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
+    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/vueisotope.umd.js",
+    "build:es": "rollup --config build/rollup.config.js --format es --file dist/vueisotope.esm.js",
+    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/vueisotope.min.js"
   },
   "dependencies": {
     "isotope-layout": "^3.0.1"
@@ -34,19 +47,5 @@
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-vue": "^5.1.6",
     "vue-template-compiler": "^2.6.11"
-  },
-  "scripts": {
-    "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
-    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/vueisotope.umd.js",
-    "build:es": "rollup --config build/rollup.config.js --format es --file dist/vueisotope.esm.js",
-    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/vueisotope.min.js"
-  },
-  "author": "David Desmaisons",
-  "bugs": {},
-  "license": "MIT",
-  "homepage": " https://github.com/David-Desmaisons/Vue.Isotope#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/David-Desmaisons/Vue.Isotope.git"
   }
 }
