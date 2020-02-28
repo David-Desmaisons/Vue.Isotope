@@ -1,8 +1,8 @@
 var count=0;
 
 Vue.component('box', {
+  props: ['elem'],
   template: '<div class="item">{{ elem.name }}<br>{{ elem.id }}</div>',
-  props: ['elem']
 });
 
 var vm = new Vue({
@@ -16,20 +16,20 @@ var vm = new Vue({
 		selected: null,
 		sortOption:null,
 		filterOption:null,
-		filterText: ""
+		filterText: "",
 	},
 	methods:{
 		getOption: function () {
-			var _this = this
+			var _this = this;
 			return {
 				masonry: {
-				    gutter: 10
+				    gutter: 10,
 				},
 				getSortData: {
 			        id: "id",
 			        name: function(itemElem){
 			        	return itemElem.name.toLowerCase();     
-			        }
+			        },
 			    },
 			    getFilterData:{
 			      	isEven: function(itemElem){
@@ -40,15 +40,15 @@ var vm = new Vue({
 			      	},
 			      	filterByText: function(itemElem){
 			        	return itemElem.name.toLowerCase().includes(_this.filterText.toLowerCase());
-			        }
-			    }
-			}
+			        },
+			    },
+			};
 		},
 		add: function () {
 			this.list.push({name:'Juan', id:count++});
 		},
 		replace: function () {
-			this.list=[{name:'Edgard', id: count++}, {name:'James', id:count++}]
+			this.list=[{name:'Edgard', id: count++}, {name:'James', id:count++}];
 		},
 		sort : function (key) {
 			this.isotopeSort(key);
@@ -63,6 +63,6 @@ var vm = new Vue({
 		shuttle : function(){
 			this.isotopeShuttle();
 			this.sortOption=null;
-		}	
-	}
+		},	
+	},
 });
