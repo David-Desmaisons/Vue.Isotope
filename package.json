@@ -2,11 +2,12 @@
   "name": "vueisotope",
   "version": "3.1.2",
   "description": "vue isotope for directive",
-  "main": "dist/vue_isotope.min.js",
-  "files": [
-    "dist/vue_isotope.min.js",
-    "src/vue_isotope.js"
-  ],
+  "main": "dist/vueisotope.umd.js",
+  "module": "dist/vueisotope.esm.js",
+  "unpkg": "dist/vueisotope.min.js",
+  "browser": {
+    "./sfc": "src/vueisotope.vue"
+  },
   "keywords": [
     "vue",
     "vuejs",
@@ -20,39 +21,23 @@
     "test": "test"
   },
   "dependencies": {
-    "isotope-layout": "^3.0.1",
-    "lodash": "^4.13.1"
+    "isotope-layout": "^3.0.1"
   },
   "devDependencies": {
-    "babel-plugin-array-includes": "^2.0.3",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-es2015": "^6.16.0",
-    "bower": "^1.7.9",
-    "connect": "^3.4.1",
-    "connect-livereload": "^0.5.4",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-clean": "^0.3.2",
-    "gulp-filter": "^4.0.0",
-    "gulp-flatten": "^0.3.0",
-    "gulp-jasmine": "^2.4.0",
-    "gulp-jshint": "^2.0.1",
-    "gulp-livereload": "^3.8.1",
-    "gulp-load-plugins": "^1.2.4",
-    "gulp-main-bower-files": "^1.5.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-size": "^2.1.0",
-    "gulp-uglify": "^1.5.4",
-    "gulp-useref": "^3.1.0",
-    "jasmine-istanbul-phantom": "^1.1.1",
-    "jshint": "^2.9.2",
-    "jshint-stylish": "^2.2.0",
-    "opn": "^4.0.2",
-    "serve-index": "^1.8.0",
-    "serve-static": "^1.11.1"
+    "@rollup/plugin-buble": "^0.21.1",
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
+    "postcss": "^7.0.27",
+    "rollup": "^1.32.0",
+    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-vue": "^5.1.6",
+    "vue-template-compiler": "^2.6.11"
   },
   "scripts": {
-    "test": "gulp test"
+    "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
+    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/vueisotope.umd.js",
+    "build:es": "rollup --config build/rollup.config.js --format es --file dist/vueisotope.esm.js",
+    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/vueisotope.min.js"
   },
   "author": "David Desmaisons",
   "bugs": {},
