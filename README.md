@@ -12,14 +12,14 @@ Integrate Vue with isotope filter & sort magical layouts.
 
 ## Demo
 
-![demo gif](https://raw.githubusercontent.com/hctpbl/Vue.Isotope/master/example1.gif)
+![demo gif](https://raw.githubusercontent.com/hctpbl/Vue.Isotope2/master/example1.gif)
 
 [Basic](https://jsfiddle.net/dede89/rz7q746y/)<br>
 [Complete](https://jsfiddle.net/dede89/g6c0vzm2/)<br>
 
 
 Isotope elements:
-![demo gif](https://raw.githubusercontent.com/hctpbl/Vue.Isotope/master/example2.gif)
+![demo gif](https://raw.githubusercontent.com/hctpbl/Vue.Isotope2/master/example2.gif)
 
 [fiddle](https://jsfiddle.net/dede89/1a32bzm5/)<br>
 
@@ -64,7 +64,7 @@ Type: `Object`<br>
 Required: `true`
 * All value are similar as [isotope options](http://isotope.metafizzy.co/options.html) expect for:
 * Filter definition:
-  Implement filter by passing an option with a getFilterData object that exposes filter option. Vue.Isotope will call these 
+  Implement filter by passing an option with a getFilterData object that exposes filter option. Vue.Isotope2 will call these 
   functions with the element to filter as parameter and this set as the underlying vm.
 ```javascript 
   getFilterData:{
@@ -81,7 +81,7 @@ Required: `true`
 ```      	
   
 * Sort definition:
-  Implement sort by passing as option a getSortData object that exposes filter option. Vue.Isotope will call these 
+  Implement sort by passing as option a getSortData object that exposes filter option. Vue.Isotope2 will call these 
   functions with the element to filter as parameter and this set as the underlying vm. If a string is passed instead of a function, sorting
   will use the corresponding property.
 ```javascript
@@ -166,4 +166,4 @@ Unloaded images can throw off Isotope layouts and cause item elements to overlap
   
 ## License
   
-  [MIT](https://github.com/hctpbl/Vue.Isotope/blob/master/LICENSE)
+  [MIT](https://github.com/hctpbl/Vue.Isotope2/blob/master/LICENSE)

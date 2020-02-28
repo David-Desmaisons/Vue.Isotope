@@ -1,13 +1,13 @@
 {
   "name": "vueisotope2",
-  "version": "0.0.0",
-  "description": "vue isotope for directive",
+  "version": "0.1.0",
+  "description": "vue component to use isotope",
   "author": "Héctor Pablos",
   "license": "MIT",
-  "homepage": " https://github.com/hctpbl/Vue.Isotope#readme",
+  "homepage": " https://github.com/hctpbl/Vue.Isotope2#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hctpbl/Vue.Isotope.git"
+    "url": "https://github.com/hctpbl/Vue.Isotope2.git"
   },
   "main": "dist/vueisotope.umd.js",
   "module": "dist/vueisotope.esm.js",
@@ -39,7 +39,6 @@
   "devDependencies": {
     "@rollup/plugin-buble": "^0.21.1",
     "@rollup/plugin-commonjs": "^11.0.2",
-    "@rollup/plugin-node-resolve": "^7.1.1",
     "eslint-plugin-vue": "^6.2.1",
     "postcss": "^7.0.27",
     "rollup": "^1.32.0",
