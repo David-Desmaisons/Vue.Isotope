@@ -1,15 +1,20 @@
 "use strict";
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 (function () {
-  function buildVueIsotope(_, Isotope) {
+  function buildVueIsotope(Isotope) {
 
     function addClass(node, classValue) {
-      if (node.data) {
-        var initValue = !node.data.staticClass ? "" : node.data.staticClass + " ";
-        node.data.staticClass = initValue + classValue;
+      if (!node.data || node.data.staticClass && node.data.staticClass.indexOf('ignore') !== -1) {
+        return;
       }
+      var initValue = !node.data.staticClass ? "" : node.data.staticClass + " ";
+      node.data.staticClass = initValue + classValue;
     }
 
     function getItemVm(elmt) {
@@ -48,7 +53,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         var prevChildren = this.prevChildren = this.children;
         var rawChildren = this.$slots.default || [];
         var children = this.children = [];
-        var removedIndex = this.removedIndex = [];
+        var removedKeys = this.removedKeys = [];
 
         rawChildren.forEach(function (elt) {
           return addClass(elt, _this.itemSelector);
@@ -75,7 +80,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             var _c = prevChildren[_i];
             if (!map[_c.key]) {
               displayChildren.splice(_i, 0, _c);
-              removedIndex.push(_i);
+              removedKeys.push(_c.key);
             }
           }
         }
@@ -85,16 +90,20 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       mounted: function mounted() {
         var _this2 = this;
 
-        var options = _.merge({}, this.compiledOptions);
+        var options = Object.assign({}, this.compiledOptions);
         var update = function update(object) {
-          _.forOwn(object, function (value, key) {
+          Object.entries(object).forEach(function (_ref) {
+            var _ref2 = _slicedToArray(_ref, 2),
+              key = _ref2[0],
+              value = _ref2[1];
+
             object[key] = function (itemElement) {
-              var res = getItemVm(itemElement);return value.call(_this2, res.vm, res.index);
+              var res = getItemVm(itemElement); return value.call(_this2, res.vm, res.index);
             };
           });
         };
-        update(options.getSortData);
-        update(options.getFilterData);
+        update(options.getSortData || {});
+        update(options.getFilterData || {});
         this._isotopeOptions = options;
         if (options.filter) {
           options.filter = this.buildFilterFunction(options.filter);
@@ -118,7 +127,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         });
       },
       beforeDestroy: function beforeDestroy() {
-        _.forEach(this._listeners, function (unlisten) {
+        this._listeners.forEach(function (unlisten) {
           unlisten();
         });
         if (this._filterlistener) {
@@ -137,9 +146,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         }
 
         var newChildren = [].concat(_toConsumableArray(this.$el.children));
-        var added = _.difference(newChildren, this._oldChidren);
-        var removed = this.removedIndex.map(function (index) {
-          return _this3.$el.children[index];
+        var added = newChildren.filter(function (c) {
+          return !(_this3._oldChidren.indexOf(c) !== -1);
+        });
+        var removed = this.removedKeys.map(function (key) {
+          return Array.from(_this3.$el.children).find(function (c) {
+            return c.__vue__ && c.__vue__.$vnode.key === key;
+          });
         });
 
         this.cleanupNodes();
@@ -159,16 +172,21 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         cleanupNodes: function cleanupNodes() {
           var _this4 = this;
 
-          this.removedIndex.reverse();
-          this.removedIndex.forEach(function (index) {
-            return _this4._vnode.children.splice(index, 1);
+          this.removedKeys.reverse();
+          this._vnode.children = this._vnode.children.filter(function (c) {
+            return !(_this4.removedKeys.indexOf(c.key) !== -1);
+          });
+          this.$children = this.$children.filter(function (c) {
+            return !(_this4.removedKeys.indexOf(c.$vnode.key) !== -1);
           });
         },
         link: function link() {
           var _this5 = this;
 
           var slots = this.$slots.default || [];
-          slots.forEach(function (slot, index) {
+          slots.filter(function (slot) {
+            return slot.data && slot.data.staticClass && !(slot.data.staticClass.indexOf('ignore') !== -1);
+          }).forEach(function (slot, index) {
             var elmt = slot.elm;
             if (elmt) elmt.__underlying_element = { vm: _this5.list[index], index: index };
           });
@@ -176,36 +194,27 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         listen: function listen() {
           var _this6 = this;
 
-          this._listeners = _(this.compiledOptions.getSortData).map(function (sort) {
-            return _.map(_this6.list, function (collectionElement, index) {
+          this._listeners = Object.values(this.compiledOptions.getSortData || {}).map(function (sort) {
+            return Array.from(_this6.$el.children).map(function (collectionElement, index) {
               return _this6.$watch(function () {
                 return sort(collectionElement);
               }, function () {
                 _this6.iso.updateSortData();
-                _this6.iso._requestUpdate();
+                // this.iso._requestUpdate();
               });
             });
-          }).flatten().value();
+          }).flat();
         },
         sort: function sort(name) {
           var sort = name;
-          if (_.isString(name)) {
+          if (typeof name === "string") {
             sort = { sortBy: name };
           }
           this.arrange(sort);
           this.$emit("sort", name);
         },
         buildFilterFunction: function buildFilterFunction(name) {
-          var _this7 = this;
-
           var filter = this._isotopeOptions.getFilterData[name];
-          this._filterlistener = this.$watch(function () {
-            return _.map(_this7.list, function (el, index) {
-              return _this7.options.getFilterData[name](el, index);
-            });
-          }, function () {
-            _this7.iso._requestUpdate();
-          });
           return filter;
         },
         filter: function filter(name) {
@@ -214,14 +223,16 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           this.$emit("filter", name);
         },
         unfilter: function unfilter() {
-          this.arrange({ filter: function filter() {
+          this.arrange({
+            filter: function filter() {
               return true;
-            } });
+            }
+          });
           this.$emit("filter", null);
         },
         layout: function layout(name) {
           var layout = name;
-          if (_.isString(name)) {
+          if (typeof name === "string") {
             layout = { layoutMode: name };
           }
           this.arrange(layout);
@@ -246,12 +257,18 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       computed: {
         compiledOptions: function compiledOptions() {
-          var options = _.merge({}, this.options, { itemSelector: "." + this.itemSelector, isJQueryFiltering: false });
+          var options = Object.assign({}, this.options, { itemSelector: "." + this.itemSelector, isJQueryFiltering: false });
 
-          _.forOwn(options.getSortData, function (value, key) {
-            if (_.isString(value)) options.getSortData[key] = function (itemElement) {
-              return itemElement[value];
-            };
+          Object.entries(options.getSortData || {}).forEach(function (_ref3) {
+            var _ref4 = _slicedToArray(_ref3, 2),
+              key = _ref4[0],
+              value = _ref4[1];
+
+            if (typeof value === "string") {
+              options.getSortData[key] = function (itemElement) {
+                return itemElement[value];
+              };
+            }
           });
 
           return options;
@@ -263,15 +280,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   }
 
   if (typeof exports == "object") {
-    var _ = require("lodash"),
-        Isotope = require("isotope-layout");
-    module.exports = buildVueIsotope(_, Isotope);
+    var Isotope = require("isotope-layout");
+    module.exports = buildVueIsotope(Isotope);
   } else if (typeof define == "function" && define.amd) {
-    define(['lodash', 'Isotope'], function (_, Isotope) {
-      return buildVueIsotope(_, Isotope);
+    define(['Isotope'], function (Isotope) {
+      return buildVueIsotope(Isotope);
     });
-  } else if (window.Vue && window._ && window.Isotope) {
-    var isotope = buildVueIsotope(window._, window.Isotope);
+  } else if (window.Vue && window.Isotope) {
+    var isotope = buildVueIsotope(window.Isotope);
     Vue.component('isotope', isotope);
   }
 })();

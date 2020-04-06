@@ -1,11 +1,12 @@
 (function () {
-  function buildVueIsotope(_, Isotope) {
+  function buildVueIsotope(Isotope) {
 
     function addClass(node, classValue) {
-      if (node.data) {
-        const initValue = (!node.data.staticClass) ? "" : node.data.staticClass + " "
-        node.data.staticClass = initValue + classValue
+      if (!node.data || (node.data.staticClass && node.data.staticClass.includes('ignore'))) {
+        return
       }
+      const initValue = (!node.data.staticClass) ? "" : node.data.staticClass + " "
+      node.data.staticClass = initValue + classValue
     }
 
     function getItemVm(elmt) {
@@ -42,7 +43,7 @@
         const prevChildren = this.prevChildren = this.children
         const rawChildren = this.$slots.default || []
         const children = this.children = []
-        const removedIndex = this.removedIndex = []
+        const removedKeys = this.removedKeys = []
 
         rawChildren.forEach(elt => addClass(elt, this.itemSelector))
 
@@ -67,7 +68,7 @@
             const c = prevChildren[i]
             if (!map[c.key]) {
               displayChildren.splice(i, 0, c)
-              removedIndex.push(i)
+              removedKeys.push(c.key)
             }
           }
         }
@@ -76,20 +77,20 @@
       },
 
       mounted() {
-        const options = _.merge({}, this.compiledOptions)
+        const options = Object.assign({}, this.compiledOptions);
         var update = (object) => {
-          _.forOwn(object, (value, key) => {
+          Object.entries(object).forEach(([key, value]) => {
             object[key] = (itemElement) => { const res = getItemVm(itemElement); return value.call(this, res.vm, res.index); };
           });
         };
-        update(options.getSortData)
-        update(options.getFilterData);
+        update(options.getSortData || {});
+        update(options.getFilterData || {});
         this._isotopeOptions = options
         if (options.filter) {
           options.filter = this.buildFilterFunction(options.filter)
         }
 
-        this.$nextTick(() => {       
+        this.$nextTick(() => {
           this.link()
           this.listen()
           const iso = new Isotope(this.$el, options)
@@ -109,9 +110,9 @@
       },
 
       beforeDestroy() {
-        _.forEach(this._listeners, (unlisten) => { unlisten(); })
+        this._listeners.forEach((unlisten) => { unlisten(); });
         if (this._filterlistener) {
-          this._filterlistener()
+          this._filterlistener();
         }
         this.iso = null
       },
@@ -126,8 +127,8 @@
         }
 
         const newChildren = [...this.$el.children]
-        const added = _.difference(newChildren, this._oldChidren)
-        const removed = this.removedIndex.map(index => this.$el.children[index])
+        const added = newChildren.filter(c => !this._oldChidren.includes(c));
+        const removed = this.removedKeys.map(key => Array.from(this.$el.children).find(c => c.__vue__ && c.__vue__.$vnode.key === key));
 
         this.cleanupNodes()
         this.link()
@@ -144,44 +145,44 @@
 
       methods: {
         cleanupNodes() {
-          this.removedIndex.reverse()
-          this.removedIndex.forEach(index => this._vnode.children.splice(index, 1))
+          this.removedKeys.reverse();
+          this._vnode.children = this._vnode.children.filter(c => !this.removedKeys.includes(c.key));
+          this.$children = this.$children.filter(c => !this.removedKeys.includes(c.$vnode.key));
         },
 
         link() {
           const slots = this.$slots.default || []
-          slots.forEach(
-            (slot, index) => {
-              const elmt = slot.elm
-              if (elmt)
-                elmt.__underlying_element = { vm: this.list[index], index }
-            })
+          slots.filter((slot) => slot.data && slot.data.staticClass && !slot.data.staticClass.includes('ignore'))
+            .forEach(
+              (slot, index) => {
+                const elmt = slot.elm
+                if (elmt)
+                  elmt.__underlying_element = { vm: this.list[index], index }
+              })
         },
 
         listen() {
-          this._listeners = _(this.compiledOptions.getSortData).map((sort) => {
-            return _.map(this.list, (collectionElement, index) => {
+          this._listeners = Object.values(this.compiledOptions.getSortData || {}).map((sort) => {
+            return Array.from(this.$el.children).map((collectionElement, index) => {
               return this.$watch(() => { return sort(collectionElement); }, () => {
                 this.iso.updateSortData();
-                this.iso._requestUpdate();
+                // this.iso._requestUpdate();
               });
             });
-          }).flatten().value();
+          }).flat();
         },
 
         sort(name) {
           let sort = name
-          if (_.isString(name)) {
-            sort = { sortBy: name }
+          if (typeof name === "string") {
+            sort = { sortBy: name };
           }
           this.arrange(sort)
           this.$emit("sort", name)
         },
 
-        buildFilterFunction (name) {
+        buildFilterFunction(name) {
           const filter = this._isotopeOptions.getFilterData[name]
-          this._filterlistener = this.$watch(() => { return _.map(this.list, (el, index) => this.options.getFilterData[name](el, index)); },
-                                              () => { this.iso._requestUpdate(); });
           return filter
         },
 
@@ -198,8 +199,8 @@
 
         layout(name) {
           let layout = name
-          if (_.isString(name)) {
-            layout = { layoutMode: name }
+          if (typeof name === "string") {
+            layout = { layoutMode: name };
           }
           this.arrange(layout)
           this.$emit("layout", layout)
@@ -227,11 +228,12 @@
 
       computed: {
         compiledOptions() {
-          const options = _.merge({}, this.options, { itemSelector: "." + this.itemSelector, isJQueryFiltering: false })
+          const options = Object.assign({}, this.options, { itemSelector: "." + this.itemSelector, isJQueryFiltering: false });
 
-          _.forOwn(options.getSortData, (value, key) => {
-            if (_.isString(value))
-              options.getSortData[key] = (itemElement) => { return itemElement[value]; };
+          Object.entries(options.getSortData || {}).forEach(([key, value]) => {
+            if (typeof value === "string") {
+              options.getSortData[key] = itemElement => itemElement[value];
+            }
           });
 
           return options;
@@ -243,12 +245,12 @@
   }
 
   if (typeof exports == "object") {
-    var _ = require("lodash"), Isotope = require("isotope-layout");
-    module.exports = buildVueIsotope(_, Isotope);
+    var Isotope = require("isotope-layout");
+    module.exports = buildVueIsotope(Isotope);
   } else if (typeof define == "function" && define.amd) {
-    define(['lodash', 'Isotope'], function (_, Isotope) { return buildVueIsotope(_, Isotope); });
-  } else if ((window.Vue) && (window._) && (window.Isotope)) {
-    var isotope = buildVueIsotope(window._, window.Isotope);
+    define(['Isotope'], function (Isotope) { return buildVueIsotope(Isotope); });
+  } else if ((window.Vue) && (window.Isotope)) {
+    var isotope = buildVueIsotope(window.Isotope);
     Vue.component('isotope', isotope)
   }
 })();
