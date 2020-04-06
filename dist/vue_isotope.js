@@ -92,7 +92,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         var update = function update(object) {
           _.forOwn(object, function (value, key) {
             object[key] = function (itemElement) {
-              var res = getItemVm(itemElement); return value.call(_this2, res.vm, res.index);
+              var res = getItemVm(itemElement);return value.call(_this2, res.vm, res.index);
             };
           });
         };
@@ -215,11 +215,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           this.$emit("filter", name);
         },
         unfilter: function unfilter() {
-          this.arrange({
-            filter: function filter() {
+          this.arrange({ filter: function filter() {
               return true;
-            }
-          });
+            } });
           this.$emit("filter", null);
         },
         layout: function layout(name) {
@@ -265,12 +263,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     return isotopeComponent;
   }
 
-  if (typeof exports === "object") {
-    var _ = require("lodash"),
-      Isotope = require("isotope-layout");
+  if ((typeof exports === "undefined" ? "undefined" : _typeof(exports)) == "object") {
+    var _ = require("lodash.difference"),
+        Isotope = require("isotope-layout");
     module.exports = buildVueIsotope(_, Isotope);
   } else if (typeof define == "function" && define.amd) {
-    define(['lodash', 'Isotope'], function (_, Isotope) {
+    define(['lodash.difference', 'Isotope'], function (_, Isotope) {
       return buildVueIsotope(_, Isotope);
     });
   } else if (window.Vue && window._ && window.Isotope) {
