@@ -1,5 +1,5 @@
 (function () {
-  function buildVueIsotope(_, Isotope) {
+  function buildVueIsotope(Isotope) {
 
     function addClass(node, classValue) {
       if (!node.data || (node.data.staticClass && node.data.staticClass.includes('ignore'))) {
