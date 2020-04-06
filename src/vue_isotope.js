@@ -162,7 +162,7 @@
         },
 
         listen() {
-          this._listeners = Object.values(this.compiledOptions.getSortData).map((sort) => {
+          this._listeners = Object.values(this.compiledOptions.getSortData || {}).map((sort) => {
             return Array.from(this.$el.children).map((collectionElement, index) => {
               return this.$watch(() => { return sort(collectionElement); }, () => {
                 this.iso.updateSortData();
@@ -230,7 +230,7 @@
         compiledOptions() {
           const options = Object.assign({}, this.options, { itemSelector: "." + this.itemSelector, isJQueryFiltering: false });
 
-          Object.entries(options.getSortData).forEach(([key, value]) => {
+          Object.entries(options.getSortData || {}).forEach(([key, value]) => {
             if (typeof value === "string") {
               options.getSortData[key] = itemElement => itemElement[value];
             }

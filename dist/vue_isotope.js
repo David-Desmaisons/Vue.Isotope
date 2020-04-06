@@ -7,7 +7,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 (function () {
-  function buildVueIsotope(_, Isotope) {
+  function buildVueIsotope(Isotope) {
 
     function addClass(node, classValue) {
       if (!node.data || node.data.staticClass && node.data.staticClass.indexOf('ignore') !== -1) {
@@ -194,7 +194,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         listen: function listen() {
           var _this6 = this;
 
-          this._listeners = Object.values(this.compiledOptions.getSortData).map(function (sort) {
+          this._listeners = Object.values(this.compiledOptions.getSortData || {}).map(function (sort) {
             return Array.from(_this6.$el.children).map(function (collectionElement, index) {
               return _this6.$watch(function () {
                 return sort(collectionElement);
@@ -259,7 +259,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         compiledOptions: function compiledOptions() {
           var options = Object.assign({}, this.options, { itemSelector: "." + this.itemSelector, isJQueryFiltering: false });
 
-          Object.entries(options.getSortData).forEach(function (_ref3) {
+          Object.entries(options.getSortData || {}).forEach(function (_ref3) {
             var _ref4 = _slicedToArray(_ref3, 2),
               key = _ref4[0],
               value = _ref4[1];
