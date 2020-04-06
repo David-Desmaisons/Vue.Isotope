@@ -2,7 +2,7 @@
   function buildVueIsotope(_, Isotope) {
 
     function addClass(node, classValue) {
-      if (!node.data || (node.data.staticClass && node.data.staticClass.includes('ignore'))) {
+      if(!node.data || (node.data.staticClass && node.data.staticClass.includes('ignore'))) {
         return
       }
       const initValue = (!node.data.staticClass) ? "" : node.data.staticClass + " "
@@ -90,7 +90,7 @@
           options.filter = this.buildFilterFunction(options.filter)
         }
 
-        this.$nextTick(() => {
+        this.$nextTick(() => {       
           this.link()
           this.listen()
           const iso = new Isotope(this.$el, options)
@@ -153,12 +153,12 @@
         link() {
           const slots = this.$slots.default || []
           slots.filter((slot) => slot.data && slot.data.staticClass && !slot.data.staticClass.includes('ignore'))
-            .forEach(
-              (slot, index) => {
-                const elmt = slot.elm
-                if (elmt)
-                  elmt.__underlying_element = { vm: this.list[index], index }
-              })
+          .forEach(
+            (slot, index) => {
+              const elmt = slot.elm
+              if (elmt)
+                elmt.__underlying_element = { vm: this.list[index], index }
+            })
         },
 
         listen() {
@@ -181,7 +181,7 @@
           this.$emit("sort", name)
         },
 
-        buildFilterFunction(name) {
+        buildFilterFunction (name) {
           const filter = this._isotopeOptions.getFilterData[name]
           return filter
         },
@@ -244,10 +244,10 @@
   }
 
   if (typeof exports == "object") {
-    var _ = require("lodash.difference"), Isotope = require("isotope-layout");
+    var _ = require("lodash"), Isotope = require("isotope-layout");
     module.exports = buildVueIsotope(_, Isotope);
   } else if (typeof define == "function" && define.amd) {
-    define(['lodash.difference', 'Isotope'], function (_, Isotope) { return buildVueIsotope(_, Isotope); });
+    define(['lodash', 'Isotope'], function (_, Isotope) { return buildVueIsotope(_, Isotope); });
   } else if ((window.Vue) && (window._) && (window.Isotope)) {
     var isotope = buildVueIsotope(window._, window.Isotope);
     Vue.component('isotope', isotope)
